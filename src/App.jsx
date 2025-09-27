@@ -40,8 +40,7 @@ function test() {
   const invIndex = new InvertedIndex();
 
   /**
-   * TODO: Maybe add an equals() and compare() method to posting itself - sortedset works
-   * I think I'm accidentally adding numbers to PostingsList
+   * TODO: test addTerms() and addPostings(), then refactor inv index, then work on data reading (w/ strategy pattern)
    */
 
   const letters = ["a", "b", "c", "d", "e", "f", "g"];
