@@ -4,6 +4,7 @@ class InvertedIndex {
   /** reads a TextSource into index */
   read(source) {}
 
-  /** searches index for one word) */
-  searchFor(queryWord) {}
+  searchAnyMatch(queryTokens) {}
+
+  searchAllMatch(queryTokens) {}
 }

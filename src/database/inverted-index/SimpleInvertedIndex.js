@@ -32,12 +32,21 @@ export default class InvertedIndex {
     }
   }
 
-  /** searches index for one word */
-  //   searchFor(queryTokens) {
-  //     const results = new Map();
-  //     const uniqueTokens = new Set(queryTokens);
-  //     /** process tokens - unique, lowercase, stemmed */
-  //     for (let token of uniqueTokens) {
-  //     }
-  //   }
+  searchAnyMatch(queryTokens) {
+    const results = new Map();
+    const processedTokens = this.#preprocessor.runWithCollection(queryTokens);
+    const uniqueTokens = new Set(processedTokens);
+    for (let token of uniqueTokens) {
+      const result = this.#stemCounts.get(token);
+      if (!result) {
+        continue;
+      }
+      results.set(token, result);
+    }
+    return results;
+  }
+
+  searchAllMatch(queryTokens) {
+    // TODO
+  }
 }

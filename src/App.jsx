@@ -95,6 +95,17 @@ const handleChangeFile = (file, setText) => {
 
     index.read(source);
     console.log(index);
+    console.log(
+      index.searchAnyMatch([
+        "ishmael",
+        "a",
+        " ",
+        "bubba",
+        "whale",
+        "sailor",
+        "hill",
+      ])
+    );
   };
   fileData.readAsText(file);
 };
