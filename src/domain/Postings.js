@@ -21,6 +21,14 @@ export class PostingsList {
   //     return this.#data;
   //   }
 
+  get postings() {
+    const cloneArr = [];
+    this.#data
+      .map((posting) => posting.clone())
+      .forEach((clone) => cloneArr.push(clone));
+    return cloneArr;
+  }
+
   has(posting) {
     const found = this.#data.get(posting);
     return found != null && found != undefined;
@@ -84,6 +92,10 @@ class Posting {
       return 1;
     }
     return 0;
+  }
+
+  clone() {
+    return new Posting(this.#docId, this.#payload.tf);
   }
 
   toString() {

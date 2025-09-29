@@ -39,9 +39,24 @@ export default class SimpleInvertedIndex {
     }
   }
 
-  searchAnyMatch(queryTokens) {}
+  searchAnyMatch(docId, queryTokens) {
+    const uniqueQueryStems = new Set(this.#preprocessor.run(queryTokens));
+    const mapClone = new Map();
+    for (let stem of uniqueQueryStems) {
+      this.#data
+        .get(stem)
+        ?.postings.filter((posting) => posting.docId === docId)
+        .forEach((posting) => {
+          if (!mapClone.has(stem)) {
+            mapClone.set(stem, new PostingsList());
+          }
+          mapClone.get(stem).add(posting);
+        });
+    }
+    return mapClone;
+  }
 
-  searchAllMatch(queryTokens) {}
+  searchAllMatch(docId, queryTokens) {}
 }
 
 // export default class InvertedIndex {

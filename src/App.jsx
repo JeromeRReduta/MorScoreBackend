@@ -91,27 +91,16 @@ const handleChangeFile = (file, setText) => {
     const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
     console.log("source is", source);
     index.read(source);
-    //     const preprocessor = new SimplePreprocessor(
-    //       new PorterStemmer(),
-    //       new StopwordChecker(stopwordRegexes.Ntlk)
-    //     );
-    //     const index = new SimpleInvertedIndex(
-    //       preprocessor,
-    //       new SimplePartitioner()
-    //     );
-    //     index.read(source);
-    //     console.log(index);
-    //     console.log(
-    //       index.searchAnyMatch([
-    //         "ishmael",
-    //         "a",
-    //         " ",
-    //         "bubba",
-    //         "whale",
-    //         "sailor",
-    //         "hill",
-    //       ])
-    //     );
+    const results = index.searchAnyMatch(1851, [
+      "Ishmael",
+      "hilly",
+      "ishmael",
+      "IsHmAel",
+    ]);
+    for (let [key, value] of results) {
+      console.log("value is", value);
+      console.log(`${key}: ${value.postings}`);
+    }
   };
   fileData.readAsText(file);
 };
