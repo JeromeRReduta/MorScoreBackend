@@ -21,11 +21,6 @@ export class PostingsList {
   //     return this.#data;
   //   }
 
-  //   containsDocId(docId) {
-  //     const posting = this.#data.get({ docId });
-  //     return posting != null && posting != undefined;
-  //   }
-
   contains(posting) {
     const found = this.#data.get(posting);
     return found != null && found != undefined;
@@ -37,14 +32,7 @@ export class PostingsList {
       this.#data.add(posting);
       return;
     }
-    console.log(
-      "incrementing",
-      found,
-      found.payload.tf,
-      "by",
-      posting.payload.tf
-    );
-    found.incrementTfBy(posting.payload.tf); // Not actually incrementing for some reason
+    found.incrementTfBy(posting.payload.tf);
   }
 
   toString() {
@@ -91,53 +79,3 @@ export class Posting {
     return `<${this.#docId}:${this.#payload.tf}>`;
   }
 }
-
-// export class PostingsList {
-//   equals = (a, b) => {
-//     console.log("comparing for equality", a, b);
-//     return a.docId === b.docId;
-//   };
-
-//   compare = (a, b) => {
-//     console.log("comparing values of a and b", a, b);
-//     if (a.docId === b.docId) {
-//       return 0;
-//     } else if (a.docId < b.docId) {
-//       return -1;
-//     }
-//     return 1;
-//   };
-
-//   #store;
-
-//   constructor() {
-//     this.#store = new SortedSet([], this.equals, this.compare);
-//   }
-
-//   get(docId) {
-//     return this.#store.get(docId);
-//   }
-
-//   merge(docId) {
-//     if (this.has(docId)) {
-//     }
-//   }
-
-//   remove(docId) {
-//     return this.#store.remove(docId);
-//   }
-
-//   has(docId) {
-//     console.log("this is running");
-//     console.log("get func calls", this.#store.get(docId));
-//     return this.#store.has(docId);
-//   }
-
-//   delete(docId) {
-//     return this.#store.delete(docId);
-//   }
-
-//   toString() {
-//     return this.#store.join(", ");
-//   }
-// }
