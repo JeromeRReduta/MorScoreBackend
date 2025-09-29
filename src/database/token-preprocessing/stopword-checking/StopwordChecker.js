@@ -1,11 +1,7 @@
 export default class StopwordChecker {
-  #stopwordRegex;
-
-  constructor(stopwordRegex) {
-    this.#stopwordRegex = stopwordRegex;
+  static isStopword(stem, stopwordRegex) {
+    return stem.match(stopwordRegex);
   }
 
-  isStopword(stem) {
-    return stem.match(this.#stopwordRegex);
-  }
+  isStopword(stem) {}
 }
