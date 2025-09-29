@@ -46,4 +46,8 @@ export default class BrowserFileTextSource {
   isEmpty() {
     return this.#current >= this.#batches.length;
   }
+
+  asArray() {
+    return Object.freeze(this.#batches);
+  }
 }

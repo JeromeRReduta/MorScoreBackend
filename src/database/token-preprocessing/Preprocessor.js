@@ -1,11 +1,26 @@
 class Preprocessor {
   /** Converts tokens into a stem count map */
-  run(tokens) {}
+
+  stem(token) {}
+
+  isStopWord(token) {}
+
+  mergeStems(stem, stemCounts) {
+    const count = stemCounts.get(stem);
+    if (Number.isNaN(count)) {
+      stemCounts.set(stem, 1);
+      return;
+    }
+    stemCounts.set(stem, count + 1);
+  }
 
   runWithSource(source) {
-    while (!source.isEmpty()) {
-      const tokens = source.next();
-      this.run(tokens);
-    }
+    const stemCounts = new Map();
+    source
+      .asArray()
+      .map((token) => this.stem(token))
+      .filter((stem) => !this.isStopWord(stem))
+      .forEach((validStem) => this.mergeStems(validStem, stemCounts));
+    return stemCounts;
   }
 }
