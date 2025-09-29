@@ -7,6 +7,8 @@ import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocesso
 import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
 import StopwordChecker from "./database/token-preprocessing/stopword-checking/StopwordChecker.js";
 import stopwordRegexes from "./database/token-preprocessing/stopword-checking/StopwordRegexes.js";
+import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
+import SimplePartitioner from "./database/corpus-partitioning/SimplePartitioner.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -80,17 +82,19 @@ async function sleep(ms) {
 const handleChangeFile = (file, setText) => {
   const fileData = new FileReader();
   fileData.onloadend = async (e) => {
-    const thing = new BrowserFileTextSource(e.target.result);
+    const source = new BrowserFileTextSource(e.target.result);
+
     const preprocessor = new SimplePreprocessor(
       new PorterStemmer(),
       new StopwordChecker(stopwordRegexes.Ntlk)
     );
-    const batches = thing.asArray();
-    for (let batch of batches) {
-      const stemCounts = new Map();
-      preprocessor.runWithBatch(batch, stemCounts);
-      console.log("stemcounts is", stemCounts);
-    }
+    const index = new SimpleInvertedIndex(
+      preprocessor,
+      new SimplePartitioner()
+    );
+
+    index.read(source);
+    console.log(index);
   };
   fileData.readAsText(file);
 };

@@ -16,21 +16,11 @@ export default class SimplePreprocessor {
     return this.#stopwordChecker.isStopword(token);
   }
 
-  mergeStems(stem, stemCounts) {
-    const count = stemCounts.get(stem);
-    // console.log("checking", stem, count, !Number.isInteger(count));
-    if (!Number.isInteger(count)) {
-      stemCounts.set(stem, 1);
-      return;
-    }
-    stemCounts.set(stem, count + 1);
-  }
-
-  runWithBatch(batch, stemCounts) {
-    batch
+  runWithCollection(collection) {
+    return collection
       .map((token) => token.toLowerCase())
       .map((token) => this.stem(token))
-      .filter((stem) => !this.isStopword(stem))
-      .forEach((validStem) => this.mergeStems(validStem, stemCounts));
+      .filter((stem) => stem !== "")
+      .filter((stem) => !this.isStopword(stem));
   }
 }

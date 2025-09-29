@@ -3,11 +3,11 @@ class Preprocessor {
 
   stem(token) {}
 
-  isStopWord(token) {}
+  isStopword(token) {}
 
   mergeStems(stem, stemCounts) {
     const count = stemCounts.get(stem);
-    if (Number.isNaN(count)) {
+    if (!Number.isInteger(count)) {
       stemCounts.set(stem, 1);
       return;
     }
@@ -18,6 +18,7 @@ class Preprocessor {
     batch
       .map((token) => token.toLowerCase())
       .map((token) => this.stem(token))
+      .filter((stem) => stem !== "")
       .filter((stem) => !this.isStopword(stem))
       .forEach((validStem) => this.mergeStems(validStem, stemCounts));
   }
