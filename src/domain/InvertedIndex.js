@@ -1,3 +1,5 @@
+export default class InvertedIndex {}
+
 // import { PostingsList, Posting } from "./Postings";
 // import SortedMap from "collections/sorted-map";
 
