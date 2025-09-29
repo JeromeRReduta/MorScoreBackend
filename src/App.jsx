@@ -11,6 +11,8 @@ import { PostingFactory, PostingsList } from "./domain/Postings.js";
 import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
+import { profaneWords } from "@2toad/profanity";
+import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -91,28 +93,11 @@ const handleChangeFile = (file, setText) => {
     const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
     console.log("source is", source);
     index.read(source);
-    const results = index.searchAnyMatch(1851, [
-      "Ishmael",
-      "hilly",
-      "ishmael",
-      "IsHmAel",
-    ]);
-    for (let [key, value] of results) {
-      console.log("value is", value);
-      console.log(`${key}: ${value.postings}`);
-    }
+    const scorer = new MockMorScoreCalculator();
+    const score = scorer.calculate(1851, index);
+    console.log(score);
   };
   fileData.readAsText(file);
 };
-
-function test() {
-  console.log("BEGINNING TEST");
-  /**
-   * TODO: test addTerms() and addPostings(), then refactor inv index, then work on data reading (w/ strategy pattern)
-   */
-  //   const fileInput = document.getElementById("file-input");
-  //   const fileContentDisplay = document.getElementById("file-content");
-  //   const source = new BrowserFileTextSource(fileInput, fileContentDisplay);
-}
 
 export default App;
