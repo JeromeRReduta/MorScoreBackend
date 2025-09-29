@@ -4,6 +4,9 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import BrowserFileTextSource from "./database/text-sources/BrowserFileTextSource.js";
 import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocessor.js";
+import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
+import StopwordChecker from "./database/token-preprocessing/stopword-checking/StopwordChecker.js";
+import stopwordRegexes from "./database/token-preprocessing/stopword-checking/StopwordRegexes.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -78,12 +81,15 @@ const handleChangeFile = (file, setText) => {
   const fileData = new FileReader();
   fileData.onloadend = async (e) => {
     const thing = new BrowserFileTextSource(e.target.result);
-    const preprocessor = new SimplePreprocessor();
-
-    while (!thing.isEmpty()) {
-      await sleep(2000);
-      const next = thing.next().join(", ");
-      setText(next);
+    const preprocessor = new SimplePreprocessor(
+      new PorterStemmer(),
+      new StopwordChecker(stopwordRegexes.Ntlk)
+    );
+    const batches = thing.asArray();
+    for (let batch of batches) {
+      const stemCounts = new Map();
+      preprocessor.runWithBatch(batch, stemCounts);
+      console.log("stemcounts is", stemCounts);
     }
   };
   fileData.readAsText(file);

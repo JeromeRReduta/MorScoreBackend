@@ -18,20 +18,19 @@ export default class SimplePreprocessor {
 
   mergeStems(stem, stemCounts) {
     const count = stemCounts.get(stem);
-    if (Number.isNaN(count)) {
+    // console.log("checking", stem, count, !Number.isInteger(count));
+    if (!Number.isInteger(count)) {
       stemCounts.set(stem, 1);
       return;
     }
     stemCounts.set(stem, count + 1);
   }
 
-  runWithSource(source) {
-    const stemCounts = new Map();
-    source
-      .asArray()
+  runWithBatch(batch, stemCounts) {
+    batch
+      .map((token) => token.toLowerCase())
       .map((token) => this.stem(token))
       .filter((stem) => !this.isStopword(stem))
       .forEach((validStem) => this.mergeStems(validStem, stemCounts));
-    return stemCounts;
   }
 }

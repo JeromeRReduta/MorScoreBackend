@@ -14,13 +14,11 @@ class Preprocessor {
     stemCounts.set(stem, count + 1);
   }
 
-  runWithSource(source) {
-    const stemCounts = new Map();
-    source
-      .asArray()
+  runWithBatch(batch, stemCounts) {
+    batch
+      .map((token) => token.toLowerCase())
       .map((token) => this.stem(token))
-      .filter((stem) => !this.isStopWord(stem))
+      .filter((stem) => !this.isStopword(stem))
       .forEach((validStem) => this.mergeStems(validStem, stemCounts));
-    return stemCounts;
   }
 }
