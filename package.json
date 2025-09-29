@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stdlib/nlp-porter-stemmer": "^0.2.2",
     "collections": "^5.1.13",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

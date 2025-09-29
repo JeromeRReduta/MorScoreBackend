@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import BrowserFileTextSource from "./database/text-sources/BrowserFileTextSource.js";
+import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocessor.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -77,6 +78,7 @@ const handleChangeFile = (file, setText) => {
   const fileData = new FileReader();
   fileData.onloadend = async (e) => {
     const thing = new BrowserFileTextSource(e.target.result);
+    const preprocessor = new SimplePreprocessor();
 
     while (!thing.isEmpty()) {
       await sleep(2000);

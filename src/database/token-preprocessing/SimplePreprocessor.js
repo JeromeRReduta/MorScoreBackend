@@ -1,21 +1,3 @@
-/**
- * preprocessor that:
- * 1. lowercases
- * 2. stems
- * 3. remove stopwords
- * 3. converts to count map
- */ class Preprocessor {
-  /** Converts tokens into a stem count map */
-  run(tokens) {}
-
-  runWithSource(source) {
-    while (!source.isEmpty()) {
-      const tokens = source.next();
-      this.run(tokens);
-    }
-  }
-}
-
 export default class SimplePreprocessor {
   #stemmer;
 
@@ -30,7 +12,7 @@ export default class SimplePreprocessor {
     return this.#stemmer.stem(token);
   }
 
-  isStopWord(token) {
+  isStopword(token) {
     return this.#stopwordChecker.isStopword(token);
   }
 
@@ -48,7 +30,7 @@ export default class SimplePreprocessor {
     source
       .asArray()
       .map((token) => this.stem(token))
-      .filter((stem) => !this.isStopWord(stem))
+      .filter((stem) => !this.isStopword(stem))
       .forEach((validStem) => this.mergeStems(validStem, stemCounts));
     return stemCounts;
   }
