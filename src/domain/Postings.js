@@ -21,7 +21,7 @@ export class PostingsList {
   //     return this.#data;
   //   }
 
-  contains(posting) {
+  has(posting) {
     const found = this.#data.get(posting);
     return found != null && found != undefined;
   }
@@ -32,6 +32,9 @@ export class PostingsList {
       this.#data.add(posting);
       return;
     }
+    console.log(
+      `incrementing tf (${found.payload.tf}) by posting.payload.tf (${posting.payload.tf})`
+    );
     found.incrementTfBy(posting.payload.tf);
   }
 

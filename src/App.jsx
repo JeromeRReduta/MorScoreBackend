@@ -8,6 +8,8 @@ import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer
 import StopwordChecker from "./database/token-preprocessing/stopword-checking/StopwordChecker.js";
 import SimplePartitioner from "./database/corpus-partitioning/SimplePartitioner.js";
 import { PostingFactory, PostingsList } from "./domain/Postings.js";
+import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
+import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -47,20 +49,6 @@ function App() {
 
 function FileInput() {
   const [text, setText] = useState("");
-  const postingsList = new PostingsList();
-  const thing = PostingFactory.create({ docId: 1, tf: 15 });
-  const defaultContains = postingsList.contains(thing); // should be false
-  postingsList.add(thing);
-  const containsSame = postingsList.contains(thing);
-  const containsDuplicate = postingsList.contains(
-    PostingFactory.create({ docId: 1, tf: 100 })
-  ); // should be true
-  console.log("contains when empty?", defaultContains);
-  console.log("contains same?", containsSame);
-  console.log("contains duplicate?", containsDuplicate);
-  postingsList.add(PostingFactory.create({ docId: 1, tf: 100 }));
-  console.log(postingsList.toString());
-
   return (
     <>
       <input
@@ -96,6 +84,14 @@ const handleChangeFile = (file, setText) => {
   fileData.onloadend = async (e) => {
     setText("hiii");
     const source = new BrowserFileTextSource(1851, e.target.result);
+    const stemmer = new PorterStemmer();
+    const stopwordChecker = new NtlkStopwordChecker();
+    const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+    source
+      .asArray()
+      .map((batch) => preprocessor.run(batch))
+      .map((stems) => SimpleIndexBatchMapper.run(source.getDocId(), stems))
+      .forEach((map) => console.log("batched map", map));
     console.log("source is", source);
     //     const preprocessor = new SimplePreprocessor(
     //       new PorterStemmer(),
