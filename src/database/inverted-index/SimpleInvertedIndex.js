@@ -1,3 +1,49 @@
+import { PostingsList } from "../../domain/Postings";
+
+export default class SimpleInvertedIndex {
+  #preprocessor;
+  #batchMapper;
+  #data;
+
+  constructor(preprocessor, batchMapper) {
+    this.#preprocessor = preprocessor;
+    this.#batchMapper = batchMapper;
+    this.#data = new Map();
+  }
+
+  /** reads a TextSource into index */
+  read(source) {
+    const docId = source.getDocId();
+    source
+      .asArray()
+      .map((batch) => this.#preprocessor.run(batch))
+      .filter((stem) => stem !== "")
+      .map((stems) => this.#batchMapper.run(docId, stems))
+      .forEach((map) => this.#merge(map));
+    console.log("final merged map is", this.#data);
+  }
+
+  #merge(otherMap) {
+    // Todo: O(stems * postings)?
+    for (let [stem, postingsList] of otherMap) {
+      if (!this.#data.has(stem)) {
+        this.#data.set(stem, new PostingsList());
+      }
+      console.log(
+        `comparing types: map.get(stem) ${typeof this.#data.get(
+          stem
+        )} other postingsList ${typeof postingsList}`
+      );
+
+      this.#data.get(stem).merge(postingsList);
+    }
+  }
+
+  searchAnyMatch(queryTokens) {}
+
+  searchAllMatch(queryTokens) {}
+}
+
 // export default class InvertedIndex {
 //   #preprocessor;
 //   #partitioner;

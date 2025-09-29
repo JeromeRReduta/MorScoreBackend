@@ -38,6 +38,14 @@ export class PostingsList {
     found.incrementTfBy(posting.payload.tf);
   }
 
+  merge(other) {
+    if (!(other instanceof PostingsList)) {
+      console.error("Attempting to merge w/ non-PostingsList - cancelling");
+      return;
+    }
+    other.#data.forEach((posting) => this.add(posting));
+  }
+
   toString() {
     return this.#data.map((elem) => elem.toString()).join(", ");
   }

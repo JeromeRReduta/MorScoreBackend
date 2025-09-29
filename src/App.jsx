@@ -10,6 +10,7 @@ import SimplePartitioner from "./database/corpus-partitioning/SimplePartitioner.
 import { PostingFactory, PostingsList } from "./domain/Postings.js";
 import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
+import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -87,12 +88,9 @@ const handleChangeFile = (file, setText) => {
     const stemmer = new PorterStemmer();
     const stopwordChecker = new NtlkStopwordChecker();
     const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-    source
-      .asArray()
-      .map((batch) => preprocessor.run(batch))
-      .map((stems) => SimpleIndexBatchMapper.run(source.getDocId(), stems))
-      .forEach((map) => console.log("batched map", map));
+    const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
     console.log("source is", source);
+    index.read(source);
     //     const preprocessor = new SimplePreprocessor(
     //       new PorterStemmer(),
     //       new StopwordChecker(stopwordRegexes.Ntlk)
