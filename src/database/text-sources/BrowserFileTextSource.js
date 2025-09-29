@@ -1,15 +1,16 @@
 export default class BrowserFileTextSource {
+  #docId;
   #batches;
   #current;
   #batchSize;
   static DEFAULT_BATCH_SIZE = 100;
 
   constructor(
+    docId,
     fileReaderResult,
     batchSize = BrowserFileTextSource.DEFAULT_BATCH_SIZE
   ) {
-    // console.log("beginning processing");
-    // console.log("file result", fileReaderResult);
+    this.#docId = docId;
     const tokens = fileReaderResult.split(/\W+/);
     // console.log("tokens are", tokens);
     this.#current = 0;
@@ -32,6 +33,10 @@ export default class BrowserFileTextSource {
     }
 
     // console.log("batches after processing is", this.#batches);
+  }
+
+  getDocId() {
+    return this.#docId;
   }
 
   /** Returns next batch of text from source */

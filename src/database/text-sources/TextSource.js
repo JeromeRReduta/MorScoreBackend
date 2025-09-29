@@ -1,4 +1,7 @@
 class TextSource {
+  /** Returns the docId associted w/ text source */
+  getDocId() {}
+
   /** Returns next batch of text from source */
   next() {}
 

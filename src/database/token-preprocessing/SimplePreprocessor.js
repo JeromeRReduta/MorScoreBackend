@@ -1,3 +1,5 @@
+import Preprocessor from "./Preprocessor";
+
 export default class SimplePreprocessor {
   #stemmer;
 
@@ -8,19 +10,11 @@ export default class SimplePreprocessor {
     this.#stopwordChecker = stopwordChecker;
   }
 
-  stem(token) {
-    return this.#stemmer.stem(token);
-  }
-
-  isStopword(token) {
-    return this.#stopwordChecker.isStopword(token);
-  }
-
-  runWithCollection(collection) {
-    return collection
-      .map((token) => token.toLowerCase())
-      .map((token) => this.stem(token))
-      .filter((stem) => stem !== "")
-      .filter((stem) => !this.isStopword(stem));
+  run(batchedTokens) {
+    return Preprocessor.run(
+      batchedTokens,
+      this.#stemmer,
+      this.#stopwordChecker
+    );
   }
 }

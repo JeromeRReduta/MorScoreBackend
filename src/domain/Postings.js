@@ -40,7 +40,7 @@ export class PostingsList {
   }
 }
 
-export class Posting {
+class Posting {
   #docId;
 
   #payload;
@@ -77,5 +77,11 @@ export class Posting {
 
   toString() {
     return `<${this.#docId}:${this.#payload.tf}>`;
+  }
+}
+
+export class PostingFactory {
+  static create({ docId, tf }) {
+    return new Posting(docId, tf);
   }
 }

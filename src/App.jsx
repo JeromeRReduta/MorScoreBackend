@@ -6,9 +6,8 @@ import BrowserFileTextSource from "./database/text-sources/BrowserFileTextSource
 import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocessor.js";
 import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
 import StopwordChecker from "./database/token-preprocessing/stopword-checking/StopwordChecker.js";
-import stopwordRegexes from "./database/token-preprocessing/stopword-checking/StopwordRegexes.js";
 import SimplePartitioner from "./database/corpus-partitioning/SimplePartitioner.js";
-import { Posting, PostingsList } from "./domain/Postings.js";
+import { PostingFactory, PostingsList } from "./domain/Postings.js";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -49,15 +48,17 @@ function App() {
 function FileInput() {
   const [text, setText] = useState("");
   const postingsList = new PostingsList();
-  const thing = new Posting(1, 15);
+  const thing = PostingFactory.create({ docId: 1, tf: 15 });
   const defaultContains = postingsList.contains(thing); // should be false
   postingsList.add(thing);
   const containsSame = postingsList.contains(thing);
-  const containsDuplicate = postingsList.contains(new Posting(1, 100)); // should be true
+  const containsDuplicate = postingsList.contains(
+    PostingFactory.create({ docId: 1, tf: 100 })
+  ); // should be true
   console.log("contains when empty?", defaultContains);
   console.log("contains same?", containsSame);
   console.log("contains duplicate?", containsDuplicate);
-  postingsList.add(new Posting(1, 100));
+  postingsList.add(PostingFactory.create({ docId: 1, tf: 100 }));
   console.log(postingsList.toString());
 
   return (
@@ -91,32 +92,34 @@ async function sleep(ms) {
 }
 
 const handleChangeFile = (file, setText) => {
-  //   const fileData = new FileReader();
-  //   fileData.onloadend = async (e) => {
-  //     const source = new BrowserFileTextSource(e.target.result);
-  //     const preprocessor = new SimplePreprocessor(
-  //       new PorterStemmer(),
-  //       new StopwordChecker(stopwordRegexes.Ntlk)
-  //     );
-  //     const index = new SimpleInvertedIndex(
-  //       preprocessor,
-  //       new SimplePartitioner()
-  //     );
-  //     index.read(source);
-  //     console.log(index);
-  //     console.log(
-  //       index.searchAnyMatch([
-  //         "ishmael",
-  //         "a",
-  //         " ",
-  //         "bubba",
-  //         "whale",
-  //         "sailor",
-  //         "hill",
-  //       ])
-  //     );
-  //   };
-  //   fileData.readAsText(file);
+  const fileData = new FileReader();
+  fileData.onloadend = async (e) => {
+    setText("hiii");
+    const source = new BrowserFileTextSource(1851, e.target.result);
+    console.log("source is", source);
+    //     const preprocessor = new SimplePreprocessor(
+    //       new PorterStemmer(),
+    //       new StopwordChecker(stopwordRegexes.Ntlk)
+    //     );
+    //     const index = new SimpleInvertedIndex(
+    //       preprocessor,
+    //       new SimplePartitioner()
+    //     );
+    //     index.read(source);
+    //     console.log(index);
+    //     console.log(
+    //       index.searchAnyMatch([
+    //         "ishmael",
+    //         "a",
+    //         " ",
+    //         "bubba",
+    //         "whale",
+    //         "sailor",
+    //         "hill",
+    //       ])
+    //     );
+  };
+  fileData.readAsText(file);
 };
 
 function test() {
