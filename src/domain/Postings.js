@@ -21,16 +21,30 @@ export class PostingsList {
   //     return this.#data;
   //   }
 
-  containsDocId(docId) {
-    const posting = this.#data.get({ docId });
-    return posting != null && posting != undefined;
+  //   containsDocId(docId) {
+  //     const posting = this.#data.get({ docId });
+  //     return posting != null && posting != undefined;
+  //   }
+
+  contains(posting) {
+    const found = this.#data.get(posting);
+    return found != null && found != undefined;
   }
 
-  addReference(docId) {
-    if (!this.containsDocId(docId)) {
-      this.#data.add(new Posting(docId));
+  add(posting) {
+    const found = this.#data.get(posting);
+    if (!found) {
+      this.#data.add(posting);
+      return;
     }
-    this.#data.get({ docId }).increment();
+    console.log(
+      "incrementing",
+      found,
+      found.payload.tf,
+      "by",
+      posting.payload.tf
+    );
+    found.incrementTfBy(posting.payload.tf); // Not actually incrementing for some reason
   }
 
   toString() {
@@ -43,9 +57,9 @@ export class Posting {
 
   #payload;
 
-  constructor(docId) {
+  constructor(docId, tf) {
     this.#docId = docId;
-    this.#payload = { tf: 0 };
+    this.#payload = { tf: tf };
   }
 
   get docId() {
@@ -56,8 +70,8 @@ export class Posting {
     return structuredClone(this.#payload);
   }
 
-  increment() {
-    this.#payload.tf++;
+  incrementTfBy(value) {
+    this.#payload.tf += value;
   }
 
   equals(other) {
