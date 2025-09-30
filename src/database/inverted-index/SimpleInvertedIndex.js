@@ -20,7 +20,10 @@ export default class SimpleInvertedIndex {
       .filter((stem) => stem !== "")
       .map((stems) => this.#batchMapper.run(docId, stems))
       .forEach((map) => this.#merge(map));
-    console.log("final merged map is", this.#data);
+  }
+
+  get(stem) {
+    return this.#data.get(stem).clone();
   }
 
   #merge(otherMap) {
@@ -29,11 +32,6 @@ export default class SimpleInvertedIndex {
       if (!this.#data.has(stem)) {
         this.#data.set(stem, new PostingsList());
       }
-      console.log(
-        `comparing types: map.get(stem) ${typeof this.#data.get(
-          stem
-        )} other postingsList ${typeof postingsList}`
-      );
 
       this.#data.get(stem).merge(postingsList);
     }
@@ -62,7 +60,7 @@ export default class SimpleInvertedIndex {
         continue;
       }
       if (this.#data.has(uniqueStem)) {
-        const postingsList = structuredClone(this.#data.get(uniqueStem));
+        const postingsList = this.#data.get(uniqueStem).clone();
         results.set(uniqueStem, postingsList);
       }
     }

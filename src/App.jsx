@@ -87,9 +87,9 @@ const handleChangeFile = (file, setText) => {
     const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
     const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
     index.read(source);
-    // const scorer = new MockMorScoreCalculator();
-    // const score = scorer.calculate(1851, index);
-    // console.log(score);
+    const scorer = new MockMorScoreCalculator();
+    const score = scorer.calculate(index);
+    console.log(score);
   };
   fileData.readAsText(file);
 };

@@ -40,9 +40,6 @@ export class PostingsList {
       this.#data.add(posting);
       return;
     }
-    console.log(
-      `incrementing tf (${found.payload.tf}) by posting.payload.tf (${posting.payload.tf})`
-    );
     found.incrementTfBy(posting.payload.tf);
   }
 
@@ -52,6 +49,14 @@ export class PostingsList {
       return;
     }
     other.#data.forEach((posting) => this.add(posting));
+  }
+
+  clone() {
+    const clone = new PostingsList();
+    this.#data
+      .map((posting) => posting.clone())
+      .forEach((posting) => clone.add(posting));
+    return clone;
   }
 
   toString() {

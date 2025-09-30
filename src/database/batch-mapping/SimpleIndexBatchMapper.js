@@ -9,7 +9,6 @@ export default class SimpleIndexBatchMapper {
       }
       const posting = PostingFactory.create({ docId, tf: 1 });
       if (map.get(stem).has(posting)) {
-        console.log("found posting for ", stem);
       }
       map.get(stem).add(posting);
     }
