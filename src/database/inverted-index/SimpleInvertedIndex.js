@@ -38,6 +38,36 @@ export default class SimpleInvertedIndex {
       this.#data.get(stem).merge(postingsList);
     }
   }
+  /**
+   *
+   * resultMap()
+   * uniqueTokens = new Set(process(queryTokens))
+   * for (token : uniqueTokens) {
+   *  if (token === "") {
+   *      continue
+   *  }
+   *  if (this.#data.has(token)) {
+   *      resultMap.set(token, this.#data.get(token)
+   *  }
+   * return resultMap
+   * }
+   *
+   */
+  searchFor(queryTokens) {
+    const results = new Map();
+    const stems = this.#preprocessor.run(queryTokens);
+    const unique = new Set(stems);
+    for (let uniqueStem of unique) {
+      if (uniqueStem === "") {
+        continue;
+      }
+      if (this.#data.has(uniqueStem)) {
+        const postingsList = structuredClone(this.#data.get(uniqueStem));
+        results.set(uniqueStem, postingsList);
+      }
+    }
+    return results;
+  }
 
   searchAnyMatch(docId, queryTokens) {
     const uniqueQueryStems = new Set(this.#preprocessor.run(queryTokens));

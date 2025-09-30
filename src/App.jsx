@@ -5,18 +5,13 @@ import "./App.css";
 import BrowserFileTextSource from "./database/text-sources/BrowserFileTextSource.js";
 import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocessor.js";
 import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
-import StopwordChecker from "./database/token-preprocessing/stopword-checking/StopwordChecker.js";
-import SimplePartitioner from "./database/corpus-partitioning/SimplePartitioner.js";
-import { PostingFactory, PostingsList } from "./domain/Postings.js";
 import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
-import { profaneWords } from "@2toad/profanity";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 
 function App() {
   const [count, setCount] = useState(0);
-  test();
 
   return (
     <>
@@ -91,11 +86,10 @@ const handleChangeFile = (file, setText) => {
     const stopwordChecker = new NtlkStopwordChecker();
     const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
     const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
-    console.log("source is", source);
     index.read(source);
-    const scorer = new MockMorScoreCalculator();
-    const score = scorer.calculate(1851, index);
-    console.log(score);
+    // const scorer = new MockMorScoreCalculator();
+    // const score = scorer.calculate(1851, index);
+    // console.log(score);
   };
   fileData.readAsText(file);
 };

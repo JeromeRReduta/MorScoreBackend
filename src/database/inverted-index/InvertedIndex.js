@@ -4,7 +4,9 @@ export class InvertedIndex {
   /** reads a TextSource into index */
   read(source) {}
 
-  searchAnyMatch(docId, queryTokens) {}
+  searchFor(queryTokens) {}
 
-  searchAllMatch(docId, queryTokens) {}
+  searchAnyMatch(queryTokens) {}
+
+  searchAllMatch(queryTokens) {}
 }
