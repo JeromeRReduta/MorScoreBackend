@@ -10,6 +10,11 @@ import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMap
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 
+/** TODO:
+ *
+ *
+ * research mixins and clean up code w/ them
+ */
 function App() {
   const [count, setCount] = useState(0);
 
