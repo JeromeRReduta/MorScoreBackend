@@ -1,18 +1,3 @@
-/**
- * import Interface from "./Interface";
- 
- export default class InvertedIndex extends Interface {
-   constructor() {
-     super("InvertedIndex", ["add", "getPostingsList"]);
-   }
- 
-   add(textSource) {}
- 
-   getPostingsList(term) {}
- }
- 
- */
-
 import Cloneable from "../../interfaces/Cloneable";
 import Interface from "../../interfaces/Interface";
 import InvertedIndex from "../../interfaces/InvertedIndex";
