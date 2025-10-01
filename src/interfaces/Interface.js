@@ -1,5 +1,6 @@
-/** Based on the interface implementation from Harmes's and Diaz's "Pro Javascript Design Pattners" */
+/** Based on the interface implementation from Harmes's and Diaz's "Pro Javascript Design Patterns" */
 
+/** Generic interface implementation */
 export default class Interface {
     name;
     methodNames;
@@ -24,6 +25,7 @@ export default class Interface {
         }
     }
 
+    /** Asserts that an object implements a given interface. Meant for type-checking, so WILL CRASH PROGRAM if interface is not implemented */
     static implements(InterfaceName, obj) {
         if (arguments.length != 2) {
             throw new Error(

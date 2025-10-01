@@ -1,12 +1,17 @@
 import Interface from "./Interface";
 
+/**
+ * Takes a batch of stems and turns it into a mini inverted index
+ */
 export default class BatchMapper extends Interface {
     constructor() {
         super("BatchMapper", ["run"]);
     }
 
+    /** Given a batch of stems and a docId, returns a mini inverted index */
     run({ docId, stems }) {}
 
+    /** Default method version of run() */
     static run({ docId, stems, postingsListFactory, postingFactory }) {
         const batchMap = new Map();
         for (let stem of stems) {
