@@ -4,7 +4,6 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import BrowserFileTextSource from "./database/text-sources/BrowserFileTextSource.js";
 import SimplePreprocessor from "./database/token-preprocessing/SimplePreprocessor.js";
-import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
 import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
@@ -12,7 +11,7 @@ import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js
 import Interface from "./interfaces/Interface.js";
 import { PostingFactory } from "./domain/entities/postings/Posting.js";
 import SimplePostingsList from "./domain/entities/postings/SimplePostingsList.js";
-
+import PorterStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
 /** TODO:
  *
  *
@@ -108,10 +107,7 @@ const handleChangeFile = (file, setText) => {
       docId: 1851,
       fileReaderResult: e.target.result,
     });
-    const it = source.iterator();
-    while (!it.done()) {
-      console.log("it next", it.next());
-    }
+    const stemmer = new PorterStemmer();
     // const source = new BrowserFileTextSource(1851, e.target.result);
     // const stemmer = new PorterStemmer();
     // const stopwordChecker = new NtlkStopwordChecker();

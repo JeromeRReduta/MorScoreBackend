@@ -1,3 +1,0 @@
-class Stemmer {
-  stem(word) {}
-}
