@@ -83,17 +83,6 @@ function FileInput({ scoreTextSource }) {
 }
 
 /**
- *
- * Given file input
- * On change, handleChangeFile
- * handleChangeFile takes file input and set text
- * put text in TextSource function
- * Take text and tokenize it and batch it
- * Becomes text source
- *
- */
-
-/**
  * https://stackoverflow.com/questions/72376793/how-do-i-make-my-react-file-sleep-for-5-seconds-before-continuing
  */
 async function sleep(ms) {
