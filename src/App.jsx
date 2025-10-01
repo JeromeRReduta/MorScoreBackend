@@ -10,7 +10,8 @@ import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMap
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 import Interface from "./interfaces/Interface.js";
-import { PostingFactory } from "./domain/entities/postings/Postings.js";
+import { PostingFactory } from "./domain/entities/postings/Posting.js";
+import SimplePostingsList from "./domain/entities/postings/SimplePostingsList.js";
 
 /** TODO:
  *
@@ -54,12 +55,20 @@ function App() {
 
 function FileInput() {
   const [text, setText] = useState("");
-  const posting = PostingFactory.create({ docId: 1851, tf: 1000 });
-  console.log(posting);
-  console.log(posting.clone());
-  console.log(posting.toString());
-
-  const thingIndex = new ThingIndex();
+  const list = new SimplePostingsList();
+  for (let i = 0; i < 5; i++) {
+    const newPosting = PostingFactory.create({ docId: i, tf: i });
+    list.add(newPosting);
+  }
+  console.log("after adding 5 postings", list.toString());
+  for (let i = 0; i < 5; i++) {
+    const repeatedPosting = PostingFactory.create({ docId: 0, tf: 100 });
+    list.add(repeatedPosting);
+  }
+  console.log(
+    "after adding <0:100> 5 times - expect <0:500> || ",
+    list.toString()
+  );
 
   return (
     <>

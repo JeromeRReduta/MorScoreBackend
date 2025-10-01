@@ -28,10 +28,12 @@ export default class Posting {
   }
 
   get tf() {
+    console.log("get tf called");
     return this.#payload.tf;
   }
 
   set tf(newValue) {
+    console.log("set tf called with value", newValue);
     this.#payload.tf = newValue;
   }
 
