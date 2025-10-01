@@ -1,11 +1,11 @@
 import Interface from "./Interface";
 
 export default class InvertedIndex extends Interface {
-  constructor() {
-    super("InvertedIndex", ["add", "getPostingsListsFor"]);
-  }
+    constructor() {
+        super("InvertedIndex", ["add", "getPostingsListsFor"]);
+    }
 
-  add(textSource) {}
+    add(textSource) {}
 
-  getPostingsListsFor(tokens) {}
+    getPostingsListsFor(tokens) {}
 }

@@ -1,9 +1,9 @@
 import Interface from "./Interface";
 
 export default class Stemmer extends Interface {
-  constructor() {
-    super("Stemmer", ["stem"]);
-  }
+    constructor() {
+        super("Stemmer", ["stem"]);
+    }
 
-  stem(word) {}
+    stem(word) {}
 }

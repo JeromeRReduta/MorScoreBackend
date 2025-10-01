@@ -1,11 +1,11 @@
 import Interface from "./Interface";
 
 export default class TextSource extends Interface {
-  constructor() {
-    super("TextSource", ["getDocId", "next", "done", "iterator"]);
-  }
+    constructor() {
+        super("TextSource", ["getDocId", "next", "done", "iterator"]);
+    }
 
-  getDocId() {}
+    getDocId() {}
 
-  iterator() {}
+    iterator() {}
 }

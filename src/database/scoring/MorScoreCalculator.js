@@ -1,4 +1,4 @@
 export default class MorScoreCalculator {
-  /** Returns a MorScoreResult */
-  calculate(invertedIndex) {}
+    /** Returns a MorScoreResult */
+    calculate(invertedIndex) {}
 }

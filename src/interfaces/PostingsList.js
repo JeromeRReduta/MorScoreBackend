@@ -1,15 +1,15 @@
 import Interface from "./Interface";
 
 export default class PostingsList extends Interface {
-  constructor() {
-    super("PostingsList", ["getPostings", "has", "add", "mergeWith"]);
-  }
+    constructor() {
+        super("PostingsList", ["getPostings", "has", "add", "mergeWith"]);
+    }
 
-  getPostings() {}
+    getPostings() {}
 
-  has(posting) {}
+    has(posting) {}
 
-  add(posting) {}
+    add(posting) {}
 
-  mergeWith(other) {}
+    mergeWith(other) {}
 }
