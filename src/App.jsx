@@ -109,7 +109,10 @@ const handleChangeFile = (file, setText) => {
     });
     const stemmer = new PorterBasedStemmer();
     const stopwordChecker = new NtlkStopwordChecker();
-    console.log(stopwordChecker.isStopword("a"));
+    const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+    for (let batch of source) {
+      console.log(preprocessor.run(batch));
+    }
     // const source = new BrowserFileTextSource(1851, e.target.result);
     // const stemmer = new PorterStemmer();
     // const stopwordChecker = new NtlkStopwordChecker();
