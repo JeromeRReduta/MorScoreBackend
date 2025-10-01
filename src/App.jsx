@@ -11,7 +11,7 @@ import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js
 import Interface from "./interfaces/Interface.js";
 import { PostingFactory } from "./domain/entities/postings/Posting.js";
 import SimplePostingsList from "./domain/entities/postings/SimplePostingsList.js";
-import PorterBasedStemmer from "./database/token-preprocessing/stemming/PorterStemmer.js";
+import PorterBasedStemmer from "./database/token-preprocessing/stemming/PorterBasedStemmer.js";
 /** TODO:
  *
  *
@@ -108,6 +108,8 @@ const handleChangeFile = (file, setText) => {
       fileReaderResult: e.target.result,
     });
     const stemmer = new PorterBasedStemmer();
+    const stopwordChecker = new NtlkStopwordChecker();
+    console.log(stopwordChecker.isStopword("a"));
     // const source = new BrowserFileTextSource(1851, e.target.result);
     // const stemmer = new PorterStemmer();
     // const stopwordChecker = new NtlkStopwordChecker();

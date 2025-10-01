@@ -6,7 +6,7 @@ export default class StopwordChecker extends Interface {
   }
 
   static isStopword(stem, stopwordRegex) {
-    return stem.match(stopwordRegex);
+    return Boolean(stem.match(stopwordRegex));
   }
 
   isStopword(stem) {}
