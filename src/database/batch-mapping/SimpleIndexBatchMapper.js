@@ -12,8 +12,6 @@ export default class SimpleIndexBatchMapper {
   }
 
   run({ docId, stems }) {
-    console.log("list factory", this.#postingsListFactory);
-    console.log("thing factory", this.#postingFactory);
     return BatchMapper.run({
       docId,
       stems,

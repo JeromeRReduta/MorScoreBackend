@@ -42,10 +42,6 @@ export default class SimpleInvertedIndex {
   }
 
   #mergeMap(batchMap) {
-    console.log(
-      "postings list generated is",
-      this.#postingsListFactory.create()
-    );
     for (let [stem, postingsList] of batchMap) {
       if (!this.#data.has(stem)) {
         this.#data.set(stem, this.#postingsListFactory.create());

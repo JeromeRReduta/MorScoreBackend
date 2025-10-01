@@ -8,61 +8,76 @@ import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checkin
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
-import Interface from "./interfaces/Interface.js";
 import { PostingFactory } from "./domain/entities/postings/Posting.js";
 import PorterBasedStemmer from "./database/token-preprocessing/stemming/PorterBasedStemmer.js";
 import SimplePostingsListFactory from "./domain/entities/postings/SimplePostingsList.js";
-/** TODO:
- *
- *
- * research mixins and clean up code w/ them
- */
+import useSystem from "./presentation/contexts/SystemContext.jsx";
+
 function App() {
-  const [count, setCount] = useState(0);
+  const {
+    morScoreResult: { score, category, offenses },
+    scoreTextSource,
+  } = useSystem();
 
   return (
     <>
-      <FileInput />
-      <h1>File Reader</h1>
-      <input type="file" id="file-input" />
-      <div id="message"></div>
-      <pre id="file-content"></pre>
-
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <MorScoreCategory category={category} />
+      <Details score={score} offenses={offenses} />
+      <FileInput scoreTextSource={scoreTextSource} />
     </>
   );
 }
 
-function FileInput() {
-  const [text, setText] = useState("");
+function MorScoreCategory({ category }) {
+  if (!category) {
+    return <h1>Input a file to get your MorScore!</h1>;
+  }
+  return (
+    <>
+      <h1>{category.toUpperCase()}</h1>
+    </>
+  );
+}
 
+function Details({ score, offenses }) {
+  if (!Number.isInteger(score)) {
+    return;
+  }
+  const descriptor = score >= 80 ? "good" : "bad";
+  const offenseList = (
+    <ul>
+      {offenses.map((offense) => (
+        <li key={offense}>{offense.toUpperCase()}</li>
+      ))}
+    </ul>
+  );
+  return (
+    <>
+      <h3>Your score is:</h3>
+      <h2>{score}</h2>
+      <h3>(That's quite {descriptor}!)</h3>
+      <h3>Here's a list of your offenses:</h3>
+      {offenseList}
+    </>
+  );
+}
+
+function FileInput({ scoreTextSource }) {
+  const fileData = new FileReader();
+  fileData.onloadend = async (e) => {
+    const textSource = new BrowserFileTextSource({
+      docId: 2000,
+      fileReaderResult: e.target.result,
+    });
+    scoreTextSource(textSource);
+  };
   return (
     <>
       <input
         type="file"
         accept=".txt"
-        onChange={(e) => handleChangeFile(e.target.files[0], setText)}
+        onChange={(e) => fileData.readAsText(e.target.files[0])}
       />
-      <div>{text}</div>
     </>
   );
 }
@@ -85,34 +100,14 @@ async function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-const handleChangeFile = (file, setText) => {
+const handleChangeFile = (file, scoreTextSource) => {
   const fileData = new FileReader();
   fileData.onloadend = async (e) => {
-    setText("hiii");
-    const source = new BrowserFileTextSource({
-      docId: 1851,
+    const textSource = new BrowserFileTextSource({
+      docId: 2000,
       fileReaderResult: e.target.result,
     });
-    const stemmer = new PorterBasedStemmer();
-    const stopwordChecker = new NtlkStopwordChecker();
-    const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-    const postingsListFactory = new SimplePostingsListFactory();
-
-    const batchMapper = new SimpleIndexBatchMapper({
-      postingsListFactory,
-      postingFactory: PostingFactory,
-    });
-
-    const index = new SimpleInvertedIndex({
-      preprocessor,
-      batchMapper,
-      postingsListFactory,
-    });
-
-    index.add(source);
-    const scorer = new MockMorScoreCalculator(index);
-    console.log("score is", scorer.calculate());
-    setText("hiii");
+    scoreTextSource(textSource);
   };
   fileData.readAsText(file);
 };

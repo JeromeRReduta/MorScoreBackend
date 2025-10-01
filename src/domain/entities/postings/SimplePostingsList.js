@@ -15,11 +15,9 @@ class SimplePostingsList {
 
   getPostings() {
     const cloneSet = new SortedSet();
-    console.log("set", this.#set);
     this.#set
       .map((posting) => posting.clone())
       .forEach((posting) => cloneSet.add(posting));
-    console.log("clone set is now", cloneSet);
     return cloneSet;
   }
 
