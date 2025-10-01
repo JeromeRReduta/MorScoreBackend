@@ -24,7 +24,7 @@ export default class Interface {
     }
   }
 
-  static complies(InterfaceName, obj) {
+  static implements(InterfaceName, obj) {
     if (arguments.length != 2) {
       throw new Error(
         "Function 'complies' has " + arguments.length + " arguments; expects 2"

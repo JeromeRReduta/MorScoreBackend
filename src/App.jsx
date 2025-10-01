@@ -10,6 +10,7 @@ import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMap
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 import Interface from "./interfaces/Interface.js";
+import { PostingFactory } from "./domain/entities/postings/Postings.js";
 
 /** TODO:
  *
@@ -53,6 +54,10 @@ function App() {
 
 function FileInput() {
   const [text, setText] = useState("");
+  const posting = PostingFactory.create({ docId: 1851, tf: 1000 });
+  console.log(posting);
+  console.log(posting.clone());
+  console.log(posting.toString());
 
   const thingIndex = new ThingIndex();
 
