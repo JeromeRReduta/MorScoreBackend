@@ -1,4 +1,7 @@
-import { PostingsList, PostingFactory } from "../../domain/entities/Postings";
+import {
+  PostingsList,
+  PostingFactory,
+} from "../../domain/entities/postings/Postings";
 
 export default class SimpleIndexBatchMapper {
   static run(docId, stems) {

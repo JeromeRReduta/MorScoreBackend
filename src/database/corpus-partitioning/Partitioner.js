@@ -1,3 +1,0 @@
-class Partitioner {
-  partition(stems) {}
-}

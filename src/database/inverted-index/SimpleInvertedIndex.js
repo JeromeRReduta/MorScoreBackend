@@ -1,4 +1,4 @@
-import { PostingsList } from "../../domain/entities/Postings";
+import { PostingsList } from "../../domain/entities/postings/Postings";
 
 export default class SimpleInvertedIndex {
   #preprocessor;
