@@ -20,13 +20,13 @@ import InvertedIndex from "../../interfaces/InvertedIndex";
 export default class SimpleInvertedIndex {
   #preprocessor;
   #batchMapper;
-  #postingsListSupplier;
+  #postingsListFactory;
   #data;
 
-  constructor({ preprocessor, batchMapper, postingsListSupplier }) {
+  constructor({ preprocessor, batchMapper, postingsListFactory }) {
     this.#preprocessor = preprocessor;
     this.#batchMapper = batchMapper;
-    this.#postingsListSupplier = postingsListSupplier;
+    this.#postingsListFactory = postingsListFactory;
     this.#data = new Map();
     Interface.implements(InvertedIndex, this);
     // Interface.implements(Cloneable, this); // Todo: implement
@@ -42,9 +42,13 @@ export default class SimpleInvertedIndex {
   }
 
   #mergeMap(batchMap) {
+    console.log(
+      "postings list generated is",
+      this.#postingsListFactory.create()
+    );
     for (let [stem, postingsList] of batchMap) {
       if (!this.#data.has(stem)) {
-        this.#data.set(stem, this.#postingsListSupplier());
+        this.#data.set(stem, this.#postingsListFactory.create());
       }
       this.#data.get(stem).mergeWith(postingsList);
     }
@@ -54,13 +58,13 @@ export default class SimpleInvertedIndex {
     const stems = this.#preprocessor.run(tokens);
     const result = new Map();
     for (let stem of stems) {
-      console.log("stem is", stem);
-      console.log("get", this.#data.get(stem));
+      //   console.log("stem is", stem);
+      //   console.log("get", this.#data.get(stem));
       const postingsList = this.#data.get(stem)?.clone();
       if (postingsList) {
         result.set(stem, postingsList);
       }
-      console.log("result is", result);
+      //   console.log("result is", result);
     }
     return result;
   }

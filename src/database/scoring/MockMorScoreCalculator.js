@@ -1,27 +1,36 @@
 import { profaneWords } from "@2toad/profanity";
+import Interface from "../../interfaces/Interface";
+import MorScoreCalculator from "../../interfaces/MorScoreCalculator";
+import SimpleInvertedIndex from "../inverted-index/SimpleInvertedIndex";
+import SimplePostingsList from "../../domain/entities/postings/SimplePostingsList";
 
 export default class MockMorScoreCalculator {
   #badWords;
   #badWordMultiplier;
+  #index;
 
-  constructor(multiplier = 5) {
+  constructor(invertedIndex, multiplier = 5) {
     this.#badWords = profaneWords.get("en");
     this.#badWordMultiplier = multiplier;
+    this.#index = invertedIndex;
+    Interface.implements(MorScoreCalculator, this);
   }
 
-  calculate(invertedIndex) {
+  calculate() {
     let score = 100;
-    const searchResults = invertedIndex.searchFor(this.#badWords);
-    /** for each post in posting list, subtract score by posting.payload.tf * 5 */
-    for (let [stem, postingsList] of searchResults) {
-      if (!this.#badWords.find((elem) => elem === stem)) {
-        continue;
-      }
-      const postings = postingsList.postings; // TODO: performance issues w/ all the copying?
-      for (let posting of postings) {
-        score -= posting.payload.tf * this.#badWordMultiplier;
+    const results = this.#index.getPostingsListsFor(this.#badWords);
+    for (let [stem, postingsList] of results) {
+      const postings = postingsList.getPostings();
+      const iterator = postings.iterator();
+      let isDone = false;
+      while (!isDone) {
+        const { value, done } = iterator.next();
+        isDone = done;
+        if (!isDone) {
+          score -= value.tf * this.#badWordMultiplier;
+        }
       }
     }
-    return score;
+    return Math.max(score, 0);
   }
 }

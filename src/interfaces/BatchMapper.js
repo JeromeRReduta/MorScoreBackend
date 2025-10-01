@@ -7,11 +7,11 @@ export default class BatchMapper extends Interface {
 
   run({ docId, stems }) {}
 
-  static run({ docId, stems, postingsListSupplier, postingFactory }) {
+  static run({ docId, stems, postingsListFactory, postingFactory }) {
     const batchMap = new Map();
     for (let stem of stems) {
       if (!batchMap.has(stem)) {
-        batchMap.set(stem, postingsListSupplier());
+        batchMap.set(stem, postingsListFactory.create());
       }
       const posting = postingFactory.create({ docId, tf: 1 });
       batchMap.get(stem).add(posting);

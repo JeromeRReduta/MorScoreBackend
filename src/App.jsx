@@ -10,8 +10,8 @@ import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.j
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
 import Interface from "./interfaces/Interface.js";
 import { PostingFactory } from "./domain/entities/postings/Posting.js";
-import SimplePostingsList from "./domain/entities/postings/SimplePostingsList.js";
 import PorterBasedStemmer from "./database/token-preprocessing/stemming/PorterBasedStemmer.js";
+import SimplePostingsListFactory from "./domain/entities/postings/SimplePostingsList.js";
 /** TODO:
  *
  *
@@ -54,20 +54,6 @@ function App() {
 
 function FileInput() {
   const [text, setText] = useState("");
-  const list = new SimplePostingsList();
-  for (let i = 0; i < 5; i++) {
-    const newPosting = PostingFactory.create({ docId: i, tf: i });
-    list.add(newPosting);
-  }
-  console.log("after adding 5 postings", list.toString());
-  for (let i = 0; i < 5; i++) {
-    const repeatedPosting = PostingFactory.create({ docId: 0, tf: 100 });
-    list.add(repeatedPosting);
-  }
-  console.log(
-    "after adding <0:100> 5 times - expect <0:500> || ",
-    list.toString()
-  );
 
   return (
     <>
@@ -110,26 +96,23 @@ const handleChangeFile = (file, setText) => {
     const stemmer = new PorterBasedStemmer();
     const stopwordChecker = new NtlkStopwordChecker();
     const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+    const postingsListFactory = new SimplePostingsListFactory();
+
     const batchMapper = new SimpleIndexBatchMapper({
-      postingsListSupplier: () => new SimplePostingsList(),
+      postingsListFactory,
       postingFactory: PostingFactory,
     });
+
     const index = new SimpleInvertedIndex({
       preprocessor,
       batchMapper,
-      postingsListSupplier: () => new SimplePostingsList(),
+      postingsListFactory,
     });
-    index.add(source);
 
-    // const source = new BrowserFileTextSource(1851, e.target.result);
-    // const stemmer = new PorterStemmer();
-    // const stopwordChecker = new NtlkStopwordChecker();
-    // const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-    // const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
-    // index.read(source);
-    // const scorer = new MockMorScoreCalculator();
-    // const score = scorer.calculate(index);
-    // console.log(score);
+    index.add(source);
+    const scorer = new MockMorScoreCalculator(index);
+    console.log("score is", scorer.calculate());
+    setText("hiii");
   };
   fileData.readAsText(file);
 };

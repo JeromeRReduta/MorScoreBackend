@@ -2,8 +2,9 @@ import SortedSet from "collections/sorted-set";
 import Interface from "../../../interfaces/Interface";
 import PostingsList from "../../../interfaces/PostingsList";
 import Cloneable from "../../../interfaces/Cloneable";
+import PostingsListFactory from "../../../interfaces/PostingsListFactory";
 
-export default class SimplePostingsList {
+class SimplePostingsList {
   #set;
 
   constructor() {
@@ -14,9 +15,11 @@ export default class SimplePostingsList {
 
   getPostings() {
     const cloneSet = new SortedSet();
+    console.log("set", this.#set);
     this.#set
       .map((posting) => posting.clone())
       .forEach((posting) => cloneSet.add(posting));
+    console.log("clone set is now", cloneSet);
     return cloneSet;
   }
 
@@ -44,7 +47,7 @@ export default class SimplePostingsList {
   }
 
   clone() {
-    const clone = new PostingsList();
+    const clone = new SimplePostingsList();
     this.#set
       .map((posting) => posting.clone())
       .forEach((posting) => clone.add(posting));
@@ -53,5 +56,15 @@ export default class SimplePostingsList {
 
   toString() {
     return this.#set.map((elem) => elem.toString()).join(", ");
+  }
+}
+
+export default class SimplePostingsListFactory {
+  constructor() {
+    Interface.implements(PostingsListFactory, this);
+  }
+
+  create() {
+    return new SimplePostingsList();
   }
 }
