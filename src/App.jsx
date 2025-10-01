@@ -104,15 +104,23 @@ const handleChangeFile = (file, setText) => {
   const fileData = new FileReader();
   fileData.onloadend = async (e) => {
     setText("hiii");
-    const source = new BrowserFileTextSource(1851, e.target.result);
-    const stemmer = new PorterStemmer();
-    const stopwordChecker = new NtlkStopwordChecker();
-    const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-    const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
-    index.read(source);
-    const scorer = new MockMorScoreCalculator();
-    const score = scorer.calculate(index);
-    console.log(score);
+    const source = new BrowserFileTextSource({
+      docId: 1851,
+      fileReaderResult: e.target.result,
+    });
+    const it = source.iterator();
+    while (!it.done()) {
+      console.log("it next", it.next());
+    }
+    // const source = new BrowserFileTextSource(1851, e.target.result);
+    // const stemmer = new PorterStemmer();
+    // const stopwordChecker = new NtlkStopwordChecker();
+    // const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+    // const index = new SimpleInvertedIndex(preprocessor, SimpleIndexBatchMapper);
+    // index.read(source);
+    // const scorer = new MockMorScoreCalculator();
+    // const score = scorer.calculate(index);
+    // console.log(score);
   };
   fileData.readAsText(file);
 };

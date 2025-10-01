@@ -7,9 +7,5 @@ export default class TextSource extends Interface {
 
   getDocId() {}
 
-  next() {}
-
-  done() {}
-
   iterator() {}
 }

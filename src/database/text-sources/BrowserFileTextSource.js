@@ -1,57 +1,56 @@
 export default class BrowserFileTextSource {
   #docId;
   #batches;
-  #current;
   #batchSize;
   static DEFAULT_BATCH_SIZE = 100;
 
-  constructor(
+  constructor({
     docId,
     fileReaderResult,
-    batchSize = BrowserFileTextSource.DEFAULT_BATCH_SIZE
-  ) {
+    batchSize = BrowserFileTextSource.DEFAULT_BATCH_SIZE,
+  }) {
     this.#docId = docId;
-    const tokens = fileReaderResult.split(/\W+/);
-    // console.log("tokens are", tokens);
-    this.#current = 0;
-    this.#batches = [];
     this.#batchSize = batchSize;
+    this.#batches = this.#batchResults(fileReaderResult);
+  }
+
+  #batchResults(fileReaderResult) {
+    const batches = [];
+    const tokens = fileReaderResult.split(/\W+/);
+    console.log("tokens are", tokens);
     let currentBatch = [];
     for (let token of tokens) {
       currentBatch.push(token);
       if (currentBatch.length === this.#batchSize) {
-        // console.log(`Found ${this.#batchSize} tokens; adding batch to batches`);
-        this.#batches.push(currentBatch);
+        batches.push(currentBatch);
         currentBatch = [];
-        // console.log("batches is now", this.#batches);
       }
     }
-    // console.log("currentBatch", currentBatch, "batches", this.#batches);
     if (currentBatch.length > 0) {
-      // in case last batch is not batchSize tokens long
-      this.#batches.push(currentBatch);
+      batches.push(currentBatch);
     }
-
-    // console.log("batches after processing is", this.#batches);
+    return batches;
   }
 
   getDocId() {
     return this.#docId;
   }
 
-  /** Returns next batch of text from source */
-  next() {
-    const batch = this.#batches[this.#current];
-    this.#current++;
-    return batch;
+  iterator() {
+    return this[Symbol.iterator]();
   }
 
-  /** returns whether source has data left */
-  isEmpty() {
-    return this.#current >= this.#batches.length;
-  }
-
-  asArray() {
-    return Object.freeze(this.#batches);
+  /** Implementation based on https://stackoverflow.com/questions/28739745/how-to-make-an-iterator-out-of-an-es6-class */
+  [Symbol.iterator]() {
+    let i = 0;
+    let data = this.#batches;
+    return {
+      next() {
+        return this.done() ? { done: true } : { value: data[i++], done: false };
+      },
+      done() {
+        return i >= data.length;
+      },
+    };
   }
 }
