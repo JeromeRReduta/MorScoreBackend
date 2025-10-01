@@ -50,7 +50,20 @@ export default class SimpleInvertedIndex {
     }
   }
 
-  getPostingsList(term) {}
+  getPostingsListsFor(tokens) {
+    const stems = this.#preprocessor.run(tokens);
+    const result = new Map();
+    for (let stem of stems) {
+      console.log("stem is", stem);
+      console.log("get", this.#data.get(stem));
+      const postingsList = this.#data.get(stem)?.clone();
+      if (postingsList) {
+        result.set(stem, postingsList);
+      }
+      console.log("result is", result);
+    }
+    return result;
+  }
 
   toString() {
     let str = "";
