@@ -34,11 +34,13 @@ export default class SimplePostingsList {
   }
 
   mergeWith(other) {
-    if (!(other instanceof PostingsList)) {
+    try {
+      Interface.implements(PostingsList, other);
+      other.getPostings().forEach((posting) => this.add(posting));
+    } catch (e) {
       console.error("Attempting to merge w/ non-PostingsList - cancelling");
       return;
     }
-    other.getPostings().forEach((posting) => this.add(posting));
   }
 
   clone() {

@@ -110,9 +110,17 @@ const handleChangeFile = (file, setText) => {
     const stemmer = new PorterBasedStemmer();
     const stopwordChecker = new NtlkStopwordChecker();
     const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-    for (let batch of source) {
-      console.log(preprocessor.run(batch));
-    }
+    const batchMapper = new SimpleIndexBatchMapper({
+      postingsListSupplier: () => new SimplePostingsList(),
+      postingFactory: PostingFactory,
+    });
+    const index = new SimpleInvertedIndex({
+      preprocessor,
+      batchMapper,
+      postingsListSupplier: () => new SimplePostingsList(),
+    });
+    index.add(source);
+
     // const source = new BrowserFileTextSource(1851, e.target.result);
     // const stemmer = new PorterStemmer();
     // const stopwordChecker = new NtlkStopwordChecker();

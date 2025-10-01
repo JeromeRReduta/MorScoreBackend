@@ -5,7 +5,7 @@ export default class InvertedIndex extends Interface {
     super("InvertedIndex", ["add", "getPostingsList"]);
   }
 
-  add(term, posting) {}
+  add(textSource) {}
 
   getPostingsList(term) {}
 }

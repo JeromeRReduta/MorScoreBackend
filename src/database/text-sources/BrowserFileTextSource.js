@@ -17,7 +17,6 @@ export default class BrowserFileTextSource {
   #batchResults(fileReaderResult) {
     const batches = [];
     const tokens = fileReaderResult.split(/\W+/);
-    console.log("tokens are", tokens);
     let currentBatch = [];
     for (let token of tokens) {
       currentBatch.push(token);
