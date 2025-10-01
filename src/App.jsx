@@ -9,6 +9,7 @@ import NtlkStopwordChecker from "./database/token-preprocessing/stopword-checkin
 import SimpleIndexBatchMapper from "./database/batch-mapping/SimpleIndexBatchMapper.js";
 import SimpleInvertedIndex from "./database/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "./database/scoring/MockMorScoreCalculator.js";
+import Interface from "./interfaces/Interface.js";
 
 /** TODO:
  *
@@ -52,6 +53,9 @@ function App() {
 
 function FileInput() {
   const [text, setText] = useState("");
+
+  const thingIndex = new ThingIndex();
+
   return (
     <>
       <input
