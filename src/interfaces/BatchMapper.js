@@ -5,7 +5,7 @@ import Interface from "./Interface";
  */
 export default class BatchMapper extends Interface {
     constructor() {
-        super("BatchMapper", ["run"]);
+        super();
     }
 
     /** Given a batch of stems and a docId, returns a mini inverted index */

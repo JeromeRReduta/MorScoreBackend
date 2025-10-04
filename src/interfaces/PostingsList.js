@@ -5,7 +5,7 @@ import Interface from "./Interface";
  */
 export default class PostingsList extends Interface {
     constructor() {
-        super("PostingsList", ["getPostings", "has", "add", "mergeWith"]);
+        super();
     }
 
     /**

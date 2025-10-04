@@ -5,7 +5,7 @@ import Interface from "./Interface";
  */
 export default class Preprocessor extends Interface {
     constructor() {
-        super("Preprocessor", ["run"]);
+        super();
     }
 
     /**

@@ -3,7 +3,7 @@ import Interface from "./Interface";
 /** Interface for stemming a word */
 export default class Stemmer extends Interface {
     constructor() {
-        super("Stemmer", ["stem"]);
+        super();
     }
 
     /** Stems a word

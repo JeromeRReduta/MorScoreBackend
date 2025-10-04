@@ -1,3 +1,6 @@
+import Interface from "../../interfaces/Interface";
+import TextSource from "../../interfaces/TextSource";
+
 export default class BrowserFileTextSource {
     #docId;
     #batches;
@@ -12,6 +15,7 @@ export default class BrowserFileTextSource {
         this.#docId = docId;
         this.#batchSize = batchSize;
         this.#batches = this.#batchResults(fileReaderResult);
+        Interface.implements(TextSource, this);
     }
 
     #batchResults(fileReaderResult) {

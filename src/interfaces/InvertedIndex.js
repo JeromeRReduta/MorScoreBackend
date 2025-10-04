@@ -4,7 +4,7 @@ import TextSource from "./TextSource";
 /** Inverted Index interface. @see https://en.wikipedia.org/wiki/Inverted_index */
 export default class InvertedIndex extends Interface {
     constructor() {
-        super("InvertedIndex", ["add", "getPostingsListsFor"]);
+        super();
     }
 
     /**

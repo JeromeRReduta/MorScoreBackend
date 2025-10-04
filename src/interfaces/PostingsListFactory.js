@@ -6,7 +6,7 @@ import PostingsList from "./PostingsList";
  */
 export default class PostingsListFactory extends Interface {
     constructor() {
-        super("PostingsListFactory", ["create"]);
+        super();
     }
 
     /**

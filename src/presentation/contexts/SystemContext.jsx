@@ -7,6 +7,7 @@ import SimpleIndexBatchMapper from "../../database/batch-mapping/SimpleIndexBatc
 import { PostingFactory } from "../../domain/entities/postings/Posting";
 import SimpleInvertedIndex from "../../database/inverted-index/SimpleInvertedIndex";
 import MockMorScoreCalculator from "../../database/scoring/MockMorScoreCalculator";
+import Interface from "../../interfaces/Interface";
 
 const SystemContext = createContext();
 
@@ -27,9 +28,13 @@ export function SystemProvider({ children }) {
             batchMapper,
             postingsListFactory,
         });
-        index.add(textSource);
-        const scorer = new MockMorScoreCalculator(index);
-        setMorScoreResult(scorer.calculate());
+        try {
+            index.add(textSource);
+            const scorer = new MockMorScoreCalculator(index);
+            setMorScoreResult(scorer.calculate());
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     const value = { morScoreResult, scoreTextSource };

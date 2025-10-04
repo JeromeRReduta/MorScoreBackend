@@ -18,7 +18,7 @@ export default class Posting {
     #payload;
 
     constructor(docId, tf) {
-        this.#docId = docId;
+        this.bubba = docId;
         this.#payload = { tf: tf };
         Interface.implements(Cloneable, this);
     }

@@ -14,7 +14,6 @@ export default class SimpleInvertedIndex {
         this.#postingsListFactory = postingsListFactory;
         this.#data = new Map();
         Interface.implements(InvertedIndex, this);
-        // Interface.implements(Cloneable, this); // Todo: implement
     }
 
     add(textSource) {
