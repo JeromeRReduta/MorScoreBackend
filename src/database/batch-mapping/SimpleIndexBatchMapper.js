@@ -8,7 +8,7 @@ export default class SimpleIndexBatchMapper {
     constructor({ postingsListFactory, postingFactory }) {
         this.#postingsListFactory = postingsListFactory;
         this.#postingFactory = postingFactory;
-        Interface.implements(BatchMapper, this);
+        Interface.implements(BatchMapper, SimpleIndexBatchMapper);
     }
 
     run({ docId, stems }) {

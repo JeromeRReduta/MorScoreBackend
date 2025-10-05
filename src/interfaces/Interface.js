@@ -1,55 +1,49 @@
 /** Based on the interface implementation from Harmes's and Diaz's "Pro Javascript Design Patterns" */
 
 /** Generic interface implementation */
+/** Todo: give class chain from static class, so as to get instance Methods AND static methods */
 export default class Interface {
+    static ignored = new Set(["length", "name", "prototype", "constructor"]);
     constructor() {}
-    static get ignoredNames() {
-        const ignored = new Set([
-            "arguments",
-            "callee",
-            "caller",
-            "constructor",
-            "apply",
-            "bind",
-            "call",
-        ]);
-        let current = new Interface();
-        while (current) {
-            const propertyNames = Object.getOwnPropertyNames(current);
-            for (let name of propertyNames) {
-                ignored.add(name);
-            }
-            current = Object.getPrototypeOf(current);
-        }
-        Object.getOwnPropertyNames(Interface).forEach((name) =>
-            ignored.add(name)
-        );
-        return ignored;
-    }
 
-    static getAllFuncs(o, isInstance) {
-        const props = new Set();
-        const ignored = Interface.ignoredNames;
-        let current = o;
+    static methodNamesOf(className) {
+        const names = new Set();
+        let current = className;
         while (current) {
-            // apparently if I delete "let current = o" and type "while (o)" and "Object.getPrototypeOf(o)" it attempts to access private variables and crashes? Maybe it's b/c o is a parameter and is special somehow
-            const propertyNames = Object.getOwnPropertyNames(current);
-            for (let name of propertyNames) {
-                if (!ignored.has(name)) {
-                    props.add(name);
+            const props = Object.getOwnPropertyNames(current);
+            for (let prop of props) {
+                if (Interface.#isValidName(current, prop)) {
+                    names.add(prop);
                 }
             }
-            current = isInstance
-                ? Object.getPrototypeOf(current)
-                : current.prototype;
+            current = current.prototype;
         }
-        return props;
+        return names;
+    }
+
+    static #isValidName(current, prop) {
+        if (Interface.ignored.has(prop)) {
+            return false;
+        }
+        try {
+            return typeof current[prop] === "function";
+        } catch (e) {
+            if (
+                !e.message
+                    .toLowerCase()
+                    .startsWith("cannot read private member")
+            ) {
+                // can't find a way to avoid reading a private var so w/ Object.getOwnPropertyNames() or Reflect.ownKeys() and can't actually check if a given var is private so we just ignore private var read errors
+                console.error(e);
+            }
+            return false;
+        }
     }
 
     /** Asserts that an object implements a given interface. Meant for type-checking, so WILL CRASH PROGRAM if interface is not implemented */
     static implements(interfaceName, objClassName) {
-        const objMethods = Interface.getAllFuncs(objClassName, true);
-        const interfaceMethods = Interface.getAllFuncs(interfaceName, false);
+        const objMethods = Interface.methodNamesOf(objClassName);
+        const interfaceMethods = Interface.methodNamesOf(interfaceName);
         const missing = [...interfaceMethods].filter(
             (e) => !objMethods.has(e) && !Interface.ignored.has(e)
         );

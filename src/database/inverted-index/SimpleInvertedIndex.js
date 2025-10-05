@@ -13,7 +13,7 @@ export default class SimpleInvertedIndex {
         this.#batchMapper = batchMapper;
         this.#postingsListFactory = postingsListFactory;
         this.#data = new Map();
-        Interface.implements(InvertedIndex, this);
+        Interface.implements(InvertedIndex, SimpleInvertedIndex);
     }
 
     add(textSource) {

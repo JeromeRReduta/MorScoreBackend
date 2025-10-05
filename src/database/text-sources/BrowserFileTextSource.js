@@ -15,7 +15,7 @@ export default class BrowserFileTextSource {
         this.#docId = docId;
         this.#batchSize = batchSize;
         this.#batches = this.#batchResults(fileReaderResult);
-        Interface.implements(TextSource, this);
+        Interface.implements(TextSource, BrowserFileTextSource);
     }
 
     #batchResults(fileReaderResult) {

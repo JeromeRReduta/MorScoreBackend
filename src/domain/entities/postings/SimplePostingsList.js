@@ -9,8 +9,8 @@ class SimplePostingsList {
 
     constructor() {
         this.#set = new SortedSet();
-        Interface.implements(PostingsList, this);
-        Interface.implements(Cloneable, this);
+        Interface.implements(PostingsList, SimplePostingsList);
+        Interface.implements(Cloneable, SimplePostingsList);
     }
 
     getPostings() {
@@ -36,7 +36,7 @@ class SimplePostingsList {
 
     mergeWith(other) {
         try {
-            Interface.implements(PostingsList, other);
+            Interface.implements(PostingsList, Object.getPrototypeOf(other));
             other.getPostings().forEach((posting) => this.add(posting));
         } catch (e) {
             console.error(
@@ -61,7 +61,7 @@ class SimplePostingsList {
 
 export default class SimplePostingsListFactory {
     constructor() {
-        Interface.implements(PostingsListFactory, this);
+        Interface.implements(PostingsListFactory, SimplePostingsListFactory);
     }
 
     create() {

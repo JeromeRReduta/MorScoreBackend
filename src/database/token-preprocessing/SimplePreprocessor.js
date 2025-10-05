@@ -9,7 +9,7 @@ export default class SimplePreprocessor {
     constructor(stemmer, stopwordChecker) {
         this.#stemmer = stemmer;
         this.#stopwordChecker = stopwordChecker;
-        Interface.implements(Preprocessor, this);
+        Interface.implements(Preprocessor, SimplePreprocessor);
     }
 
     run(batchedTokens) {

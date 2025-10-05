@@ -15,6 +15,48 @@ import useSystem from "./presentation/contexts/SystemContext.jsx";
 import Interface from "./interfaces/Interface.js";
 import InvertedIndex from "./interfaces/InvertedIndex.js";
 
+class Test {
+    #privateVar;
+    publicVar;
+
+    constructor() {
+        this.#privateVar = "private";
+        this.publicVar = "public";
+    }
+
+    static staticMethod() {}
+
+    instanceMethod() {}
+}
+
+function instanceMethods() {
+    const instance = new Test();
+    const methodNames = new Set();
+    let current = instance;
+    while (current) {
+        const props = Object.getOwnPropertyNames(current);
+        for (let prop of props) {
+            methodNames.add(prop);
+        }
+        current = Object.getPrototypeOf(current);
+    }
+    return methodNames;
+}
+
+function classMethods() {
+    const classTitle = Test;
+    const methodNames = new Set();
+    let current = classTitle;
+    while (current) {
+        const props = Object.getOwnPropertyNames(current);
+        for (let prop of props) {
+            methodNames.add(prop);
+        }
+        current = current.prototype;
+    }
+    return methodNames;
+}
+
 function App() {
     const {
         morScoreResult: { score, category, offenses },
