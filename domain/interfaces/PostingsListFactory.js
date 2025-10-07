@@ -1,17 +1,18 @@
-import Interface from "./Interface";
-import PostingsList from "./PostingsList";
+import Interface from "../interfaces/Interface.js";
+
+import PostingsList from "../interfaces/PostingsList.js";
 
 /**
  * Factory pattern for creating PostingsLists
  */
 export default class PostingsListFactory extends Interface {
-    constructor() {
-        super("PostingsListFactory", ["create"]);
-    }
+  constructor() {
+    super();
+  }
 
-    /**
-     * Creates a PostingsList
-     * @returns new PostingsList
-     */
-    create() {}
+  /**
+   * Creates a PostingsList
+   * @returns {PostingsList} new PostingsList
+   */
+  create() {}
 }

@@ -1,10 +1,11 @@
-import Interface from "./Interface";
-import TextSource from "./TextSource";
+import Interface from "../interfaces/Interface.js";
+
+import TextSource from "../interfaces/TextSource";
 
 /** Inverted Index interface. @see https://en.wikipedia.org/wiki/Inverted_index */
 export default class InvertedIndex extends Interface {
   constructor() {
-    super("InvertedIndex", ["add", "getPostingsListsFor"]);
+    super();
   }
 
   /**

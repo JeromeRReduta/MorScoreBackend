@@ -1,11 +1,11 @@
-import Interface from "./Interface";
+import Interface from "../interfaces/Interface.js";
 
 /**
  * Takes a batch of stems and turns it into a mini inverted index
  */
 export default class BatchMapper extends Interface {
   constructor() {
-    super("BatchMapper", ["run"]);
+    super();
   }
 
   /** Given a batch of stems and a docId, returns a mini inverted index */

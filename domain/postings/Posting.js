@@ -1,3 +1,4 @@
+import SortedSet from "collections/sorted-set";
 import Interface from "../interfaces/Interface.js";
 import Cloneable from "../interfaces/Cloneable.js";
 
@@ -17,9 +18,9 @@ export default class Posting {
   #payload;
 
   constructor(docId, tf) {
-    this.#docId = docId;
+    this.bubba = docId;
     this.#payload = { tf: tf };
-    Interface.implements(Cloneable, this);
+    Interface.implements(Cloneable, Posting);
   }
 
   get docId() {
