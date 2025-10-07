@@ -1,0 +1,31 @@
+import express from "express";
+
+const app = express();
+app.use(express.json());
+
+app.route("/").get((req, res) => {
+  res.status(200).send("Boop snoop lettuce me doop");
+});
+
+/** Just gonna add these 2 error handlers from assignments */
+app.use((err, req, res, next) => {
+  switch (err.code) {
+    // Invalid type
+    case "22P02":
+      return res.status(400).send(err.message);
+    // Unique constraint violation
+    case "23505":
+    // Foreign key violation
+    case "23503":
+      return res.status(400).send(err.detail);
+    default:
+      next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send("Sorry! Something went wrong.");
+});
+
+export default app;

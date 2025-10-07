@@ -1,30 +1,28 @@
 {
-  "name": "morscore",
-  "private": true,
-  "version": "0.0.0",
+  "name": "mor-score-backend",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "node --env-file=.env server.js",
+    "dev": "node --watch --env-file=.env server.js",
+    "test": "vitest",
+    "db:schema": "echo TODO: add this",
+    "db:seed": "echo TODO: add this",
+    "db:reset": "echo TODO: add this"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.14.1",
     "@2toad/profanity": "^3.2.0",
     "@stdlib/nlp-porter-stemmer": "^0.2.2",
-    "collections": "^5.1.13",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "collections": "^5.1.13"
   },
   "devDependencies": {
-    "@eslint/js": "^9.36.0",
-    "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.3",
-    "eslint": "^9.36.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.4.0",
-    "vite": "^7.1.7"
+    "supertest": "^7.1.0",
+    "vitest": "^3.1.2"
   }
 }
