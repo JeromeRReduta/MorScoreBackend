@@ -5,7 +5,7 @@
     "start": "node --env-file=.env server.js",
     "dev": "node --watch --env-file=.env server.js",
     "test": "vitest",
-    "db:schema": "echo TODO: add this",
+    "db:schema": "psql -d mor_score -f infrastructure/psql/schema.sql -U practice",
     "db:seed": "echo TODO: add this",
     "db:reset": "echo TODO: add this"
   },
