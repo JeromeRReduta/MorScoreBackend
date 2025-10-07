@@ -4,7 +4,7 @@ import Stemmer from "../../../domain/interfaces/Stemmer.js";
 
 export default class PorterBasedStemmer {
   constructor() {
-    Interface.implements(Stemmer, this);
+    Interface.implements(Stemmer, PorterBasedStemmer);
   }
 
   /** Credit to https://github.com/stdlib-js/nlp-porter-stemmer */

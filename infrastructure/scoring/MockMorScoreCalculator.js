@@ -18,7 +18,7 @@ export default class MockMorScoreCalculator {
     this.#badWords = profaneWords.get("en");
     this.#badWordMultiplier = multiplier;
     this.#index = invertedIndex;
-    Interface.implements(MorScoreCalculator, this);
+    Interface.implements(MorScoreCalculator, MockMorScoreCalculator);
   }
 
   calculate() {
