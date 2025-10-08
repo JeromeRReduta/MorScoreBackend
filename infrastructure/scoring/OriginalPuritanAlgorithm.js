@@ -24,7 +24,6 @@ export default class OriginalPuritanAlgorithm {
   }
 
   run(invertedIndex) {
-    console.log("running here");
     let score = 100;
     let count = 0;
     const results = invertedIndex.getPostingsListsFor(this.#badWords);
@@ -50,15 +49,6 @@ export default class OriginalPuritanAlgorithm {
       [4, 0],
       [5, 0],
     ]);
-    console.log("info: ", category, score, offenseCounts);
-    console.log(
-      "mor score result",
-      new MorScoreResult({ category, score, offenseCounts }).toString()
-    );
-    console.log(
-      "factory result",
-      MorScoreResultFactory.create({ category, score, offenseCounts })
-    );
     return MorScoreResultFactory.create({ category, score, offenseCounts });
   }
 }

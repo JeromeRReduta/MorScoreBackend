@@ -46,12 +46,9 @@ router
     requireBody("algorithm", "text"),
 
     (req, res) => {
-      //   console.log("DOING STUFF HERE");
-      const mock = {
-        text: `Your algorithm is ${req.body.algorithm}. Your text begins with ${req.body.text[0]}`,
-      };
-      const data = req.score(req.body.text, req.body.algorithm).toJson();
-      return res.status(200).send(JSON.stringify(data));
+      const { text, algorithm } = req.body;
+      const data = req.score(text, algorithm).toJson();
+      return res.status(200).send(data);
     }
   );
 
