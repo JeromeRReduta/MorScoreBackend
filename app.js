@@ -1,16 +1,29 @@
 import express from "express";
 import cors from "cors";
 import getYourMorScoreRouter from "./presentation/routes/getYourMorScore.js";
-
+import userRouter from "./presentation/routes/users.js";
+import PgUserRepo from "./infrastructure/accounts/PgUserRepo.js";
+import db from "./infrastructure/psql/client.js";
+import RegisterUseCase from "./application/RegisterUseCase.js";
+import LoginUseCase from "./application/LoginUseCase.js";
+import CheckPwUseCase from "./application/CheckPwUseCase.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  const userRepo = new PgUserRepo({ pgClient: db });
+  req.registerUseCase = new RegisterUseCase(userRepo);
+  req.loginUseCase = new LoginUseCase(userRepo);
+  req.checkPwUseCase = new CheckPwUseCase(userRepo);
+  req.next();
+});
 
 app.route("/").get((req, res) => {
   res.status(200).send("Boop snoop lettuce me doop");
 });
 
 app.use("/get-your-morscore", getYourMorScoreRouter);
+app.use("/users", userRouter);
 
 /** Just gonna add these 2 error handlers from assignments */
 app.use((err, req, res, next) => {

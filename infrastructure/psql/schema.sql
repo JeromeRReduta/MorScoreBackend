@@ -29,6 +29,7 @@ CREATE TABLE passages_op_results ( -- in this case, passages and op_mor_score_re
 CREATE TABLE users (
     id              SERIAL      PRIMARY KEY,
     name            TEXT        NOT NULL,
+    email           TEXT        NOT NULL        UNIQUE,
     pw_hash         TEXT        NOT NULL,
-    mor_score_score INT         NOT NULL
+    mor_score_score INT         NOT NULL        DEFAULT 0
 );
