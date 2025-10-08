@@ -22,23 +22,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
-  const stemmer = new PorterBasedStemmer();
-  const stopwordChecker = new NtlkStopwordChecker();
-  const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-  const postingsListFactory = new SimplePostingsListFactory();
-  req.scoreTextUseCase = new ScoreTextUseCase({
-    preprocessor,
-    postingsListFactory,
-  });
-  next();
-});
-
-app.use((req, res, next) => {
   const passageRepo = new PgPassageRepo({ pgClient: db });
   req.uploadTextUseCase = new UploadTextUseCase(passageRepo);
   next();
 });
-
 app.use((req, res, next) => {
   const userRepo = new PgUserRepo({ pgClient: db });
   req.registerUseCase = new RegisterUseCase(userRepo);

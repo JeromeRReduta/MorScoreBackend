@@ -33,7 +33,7 @@ export default class PgPassageRepo {
   async createAsync({ passage, opMorScoreResult }) {
     const { title, content, isPublic } = passage;
     const {
-      rows: [passageRow],
+      rows: [row],
     } = await this.#db.query({
       text: `
                 INSERT INTO passages (title, content, is_public)

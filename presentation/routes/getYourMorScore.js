@@ -17,6 +17,30 @@ function sendResult(req, res) {
 
 const router = express.Router();
 
+router.use((req, res, next) => {
+  const stemmer = new PorterBasedStemmer();
+  const stopwordChecker = new NtlkStopwordChecker();
+  const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+  const postingsListFactory = new SimplePostingsListFactory();
+  req.score = (text, algorithm) => {
+    const textSource = new BrowserFileTextSource({
+      docId: 5,
+      fileReaderResult: text,
+    });
+    const index = new SimpleInvertedIndex({
+      preprocessor,
+      postingsListFactory,
+    });
+    index.add(textSource);
+    const calculator = new MockMorScoreCalculator(
+      new OriginalPuritanAlgorithm(),
+      index
+    );
+    return calculator.calculate();
+  };
+  next();
+});
+
 router
   .route("/")
 
