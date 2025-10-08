@@ -1,4 +1,4 @@
-import SortedSet from "collections/sorted-set";
+import SortedSet from "collections/sorted-set.js";
 import Interface from "../interfaces/Interface.js";
 import PostingsList from "../interfaces/PostingsList.js";
 import Cloneable from "../interfaces/Cloneable.js";

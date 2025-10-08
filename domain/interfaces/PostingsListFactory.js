@@ -1,6 +1,6 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
 
-import PostingsList from "../interfaces/PostingsList.js";
+import PostingsList from "./PostingsList.js";
 
 /**
  * Factory pattern for creating PostingsLists

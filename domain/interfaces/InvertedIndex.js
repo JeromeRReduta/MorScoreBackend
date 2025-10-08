@@ -1,7 +1,5 @@
-import Interface from "../interfaces/Interface.js";
-
-import TextSource from "../interfaces/TextSource";
-
+import Interface from "./Interface.js";
+import TextSource from "./TextSource.js";
 /** Inverted Index interface. @see https://en.wikipedia.org/wiki/Inverted_index */
 export default class InvertedIndex extends Interface {
   constructor() {

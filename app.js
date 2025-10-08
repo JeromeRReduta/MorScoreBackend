@@ -1,11 +1,16 @@
 import express from "express";
+import cors from "cors";
+import getYourMorScoreRouter from "./presentation/routes/getYourMorScore.js";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.route("/").get((req, res) => {
   res.status(200).send("Boop snoop lettuce me doop");
 });
+
+app.use("/get-your-morscore", getYourMorScoreRouter);
 
 /** Just gonna add these 2 error handlers from assignments */
 app.use((err, req, res, next) => {
@@ -25,7 +30,9 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send("Sorry! Something went wrong.");
+  res
+    .status(err.statusCode || 500)
+    .send(err.message ?? "Sorry! Something went wrong.");
 });
 
 export default app;

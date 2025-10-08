@@ -1,4 +1,4 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
 
 /**
  * Implementation of a postings list in an inverted index
