@@ -2,6 +2,7 @@ import PG from "pg";
 import User from "../../domain/accounts/User";
 import Interface from "../../domain/interfaces/Interface";
 import UserRepo from "../../domain/interfaces/UserRepo";
+import bcrypt from "bcrypt";
 
 export default class PgUserRepo {
   #db;
@@ -34,7 +35,22 @@ export default class PgUserRepo {
     return this.#pgToUser(row);
   }
 
-  // TODO: add getByLoginInfo - here & in interface
+  async getByLoginInfoAsync({ loginInfo: { email, password } }) {
+    const {
+      rows: [row],
+    } = await this.#db.query({
+      text: `
+            SELECT * FROM users
+            WHERE email = $1
+            `,
+      values: [email],
+    });
+    if (!row) {
+      return null;
+    }
+    const hasMatchingPwHash = await bcrypt.compare(password, row.pw_hash);
+    return hasMatchingPwHash ? this.#pgToUser(row) : null;
+  }
 
   async createAsync({ email, name, password }) {
     const hash = await bcrypt.hash(password, PgUserRepo.numSaltRounds);

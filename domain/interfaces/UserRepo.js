@@ -23,6 +23,14 @@ export default class UserRepo extends Interface {
   async getByIdAsync(id) {}
 
   /**
+   * Gets a user with the given email and password
+   * @param {String} email email
+   * @param {String} password password
+   * @returns {User | null} user with the given email and password, or null if no match
+   */
+  async getByLoginInfoAsync({ loginInfo: { email, password } }) {}
+
+  /**
    * Adds a user to the db
    * @param {String} email email
    * @param {String} name name
