@@ -49,8 +49,8 @@ export default class UserRepo extends Interface {
   /**
    * ...I plead the 5th. Inspired by {@link https://x.com/hakanshehu/status/1943019056610558432|this}
    *
-   * @param {*} password password
-   * @returns {Boolean} whether the password does not yet exist in the db
+   * @param {String} password password
+   * @returns {User | null} User w/ the given password or null if it doesn't exist
    */
-  async isPasswordUniqueAsync(password) {}
+  async getByPasswordAsync(password) {}
 }

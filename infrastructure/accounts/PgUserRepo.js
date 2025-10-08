@@ -1,7 +1,6 @@
-import PG from "pg";
-import User from "../../domain/accounts/User";
-import Interface from "../../domain/interfaces/Interface";
-import UserRepo from "../../domain/interfaces/UserRepo";
+import User from "../../domain/accounts/User.js";
+import Interface from "../../domain/interfaces/Interface.js";
+import UserRepo from "../../domain/interfaces/UserRepo.js";
 import bcrypt from "bcrypt";
 
 export default class PgUserRepo {
@@ -81,18 +80,20 @@ export default class PgUserRepo {
     return this.#pgToUser(row);
   }
 
-  async isPasswordUniqueAsync(password) {
-    const hash = await bcrypt.hash(password, PgUserRepo.numSaltRounds);
-    const {
-      rows: [row],
-    } = await this.#db.query({
-      text: `
-            SELECT * FROM users
-            WHERE pw_hash = $1
-        `,
-      values: [hash],
+  async getByPasswordAsync(password) {
+    const { rows } = await this.#db.query({
+      text: `SELECT * FROM users`,
     });
-    return !row;
+
+    let found;
+    for (let row of rows) {
+      const isMatch = await bcrypt.compare(password, row.pw_hash);
+      if (isMatch) {
+        found = row;
+        break;
+      }
+    }
+    return this.#pgToUser(found);
   }
 
   #pgToUser(row) {
