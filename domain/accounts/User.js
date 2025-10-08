@@ -15,4 +15,11 @@ export default class User {
   get email() {
     return this.#email;
   }
+
+  toJson() {
+    return JSON.stringify({
+      name: this.#name,
+      email: this.#email,
+    });
+  }
 }
