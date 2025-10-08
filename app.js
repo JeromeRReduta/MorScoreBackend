@@ -9,9 +9,28 @@ import RegisterUseCase from "./application/RegisterUseCase.js";
 import LoginUseCase from "./application/LoginUseCase.js";
 import CheckPwUseCase from "./application/CheckPwUseCase.js";
 import AuthWithIdUseCase from "./application/AuthWithIdUseCase.js";
+import ScoreTextUseCase from "./application/ScoreTextUseCase.js";
+import PorterBasedStemmer from "./infrastructure/token-preprocessing/stemming/PorterBasedStemmer.js";
+import NtlkStopwordChecker from "./infrastructure/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
+import SimplePreprocessor from "./infrastructure/token-preprocessing/SimplePreprocessor.js";
+import SimplePostingsListFactory from "./domain/postings/SimplePostingsList.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use((req, res, next) => {
+  const stemmer = new PorterBasedStemmer();
+  const stopwordChecker = new NtlkStopwordChecker();
+  const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
+  const postingsListFactory = new SimplePostingsListFactory();
+  req.scoreTextUseCase = new ScoreTextUseCase({
+    preprocessor,
+    postingsListFactory,
+  });
+  next();
+});
+
 app.use((req, res, next) => {
   const userRepo = new PgUserRepo({ pgClient: db });
   req.registerUseCase = new RegisterUseCase(userRepo);

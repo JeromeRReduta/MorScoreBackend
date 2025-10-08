@@ -32,7 +32,7 @@ export default class PgPassageRepo {
 
   async createAsync({ title, content, isPublic }) {
     const {
-      rows: [row],
+      rows: [passageRow],
     } = await this.#db.query({
       text: `
             INSERT INTO passages (title, content, is_public)
@@ -41,6 +41,16 @@ export default class PgPassageRepo {
         `,
       values: [title, content, isPublic],
     });
+
+    const {
+        rows: []
+    }
+    
+
+
+    /**
+     * Consider returning passage AND result
+     */
     return this.#pgToPassage(row);
   }
 

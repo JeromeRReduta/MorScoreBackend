@@ -9,31 +9,18 @@ import SimpleInvertedIndex from "../../infrastructure/inverted-index/SimpleInver
 import MockMorScoreCalculator from "../../infrastructure/scoring/MockMorScoreCalculator.js";
 import OriginalPuritanAlgorithm from "../../infrastructure/scoring/OriginalPuritanAlgorithm.js";
 
-const router = express.Router();
+function scoreTextFile(req, res) {
+  const { text, algorithm } = req.body;
+  let morScoreAlgorithm;
+  /** Check against alternate algos (for when we have those) */
+  morScoreAlgorithm = new OriginalPuritanAlgorithm();
+  const json = req.scoreTextUseCase
+    .run({ text, algorithm: morScoreAlgorithm })
+    .toJson();
+  res.status(200).send(json);
+}
 
-router.use((req, res, next) => {
-  const stemmer = new PorterBasedStemmer();
-  const stopwordChecker = new NtlkStopwordChecker();
-  const preprocessor = new SimplePreprocessor(stemmer, stopwordChecker);
-  const postingsListFactory = new SimplePostingsListFactory();
-  req.score = (text, algorithm) => {
-    const textSource = new BrowserFileTextSource({
-      docId: 5,
-      fileReaderResult: text,
-    });
-    const index = new SimpleInvertedIndex({
-      preprocessor,
-      postingsListFactory,
-    });
-    index.add(textSource);
-    const calculator = new MockMorScoreCalculator(
-      new OriginalPuritanAlgorithm(),
-      index
-    );
-    return calculator.calculate();
-  };
-  next();
-});
+const router = express.Router();
 
 router
   .route("/")
@@ -42,14 +29,6 @@ router
     return res.status(200).send({ text: "TODO: Fix this I think?" });
   })
 
-  .post(
-    requireBody("algorithm", "text"),
-
-    (req, res) => {
-      const { text, algorithm } = req.body;
-      const data = req.score(text, algorithm).toJson();
-      return res.status(200).send(data);
-    }
-  );
+  .post(requireBody("algorithm", "text"), scoreTextFile);
 
 export default router;
