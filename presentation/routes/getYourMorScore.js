@@ -30,7 +30,7 @@ router.use((req, res, next) => {
       new OriginalPuritanAlgorithm(),
       index
     );
-    return calculator.calculate(index);
+    return calculator.calculate();
   };
   next();
 });
@@ -50,11 +50,8 @@ router
       const mock = {
         text: `Your algorithm is ${req.body.algorithm}. Your text begins with ${req.body.text[0]}`,
       };
-      console.log(
-        "scoring",
-        req.score(req.body.text, req.body.algorithm).toString()
-      );
-      return res.status(200).send(mock);
+      const data = req.score(req.body.text, req.body.algorithm).toJson();
+      return res.status(200).send(JSON.stringify(data));
     }
   );
 

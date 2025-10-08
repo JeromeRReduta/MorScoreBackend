@@ -1,7 +1,10 @@
 import { profaneWords } from "@2toad/profanity";
 import Interface from "../../domain/interfaces/Interface.js";
 import MorScoreAlgorithm from "../../domain/interfaces/MorScoreAlgorithm.js";
-import { MorScoreResultFactory } from "../../domain/mor-score-results/MorScoreResult.js";
+import MorScoreResult, {
+  MorScoreResultFactory,
+} from "../../domain/mor-score-results/MorScoreResult.js";
+
 export default class OriginalPuritanAlgorithm {
   #badWords;
   #badWordMultiplier;
@@ -21,6 +24,7 @@ export default class OriginalPuritanAlgorithm {
   }
 
   run(invertedIndex) {
+    console.log("running here");
     let score = 100;
     let count = 0;
     const results = invertedIndex.getPostingsListsFor(this.#badWords);
@@ -46,7 +50,15 @@ export default class OriginalPuritanAlgorithm {
       [4, 0],
       [5, 0],
     ]);
-
+    console.log("info: ", category, score, offenseCounts);
+    console.log(
+      "mor score result",
+      new MorScoreResult({ category, score, offenseCounts }).toString()
+    );
+    console.log(
+      "factory result",
+      MorScoreResultFactory.create({ category, score, offenseCounts })
+    );
     return MorScoreResultFactory.create({ category, score, offenseCounts });
   }
 }

@@ -48,6 +48,14 @@ export default class MorScoreResult {
     });
   }
 
+  toJson() {
+    return JSON.stringify({
+      category: this.#category,
+      score: this.#score,
+      offenses: this.offenses,
+    });
+  }
+
   toString() {
     return `
         category: ${this.#category},
