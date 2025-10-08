@@ -2,11 +2,13 @@ import express from "express";
 import cors from "cors";
 import getYourMorScoreRouter from "./presentation/routes/getYourMorScore.js";
 import userRouter from "./presentation/routes/users.js";
+import saveYourTextRouter from "./presentation/routes/saveYourTexts.js";
 import PgUserRepo from "./infrastructure/accounts/PgUserRepo.js";
 import db from "./infrastructure/psql/client.js";
 import RegisterUseCase from "./application/RegisterUseCase.js";
 import LoginUseCase from "./application/LoginUseCase.js";
 import CheckPwUseCase from "./application/CheckPwUseCase.js";
+import AuthWithIdUseCase from "./application/AuthWithIdUseCase.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -15,7 +17,8 @@ app.use((req, res, next) => {
   req.registerUseCase = new RegisterUseCase(userRepo);
   req.loginUseCase = new LoginUseCase(userRepo);
   req.checkPwUseCase = new CheckPwUseCase(userRepo);
-  req.next();
+  req.authWithIdUseCase = new AuthWithIdUseCase(userRepo);
+  next();
 });
 
 app.route("/").get((req, res) => {
@@ -24,6 +27,7 @@ app.route("/").get((req, res) => {
 
 app.use("/get-your-morscore", getYourMorScoreRouter);
 app.use("/users", userRouter);
+app.use("/save-your-text", saveYourTextRouter);
 
 /** Just gonna add these 2 error handlers from assignments */
 app.use((err, req, res, next) => {
