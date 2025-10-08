@@ -8,15 +8,10 @@ import BrowserFileTextSource from "../../infrastructure/text-sources/BrowserFile
 import SimpleInvertedIndex from "../../infrastructure/inverted-index/SimpleInvertedIndex.js";
 import MockMorScoreCalculator from "../../infrastructure/scoring/MockMorScoreCalculator.js";
 import OriginalPuritanAlgorithm from "../../infrastructure/scoring/OriginalPuritanAlgorithm.js";
+import scoreTextFile from "../middleware/scoreTextFile.js";
 
-function scoreTextFile(req, res) {
-  const { text, algorithm } = req.body;
-  let morScoreAlgorithm;
-  /** Check against alternate algos (for when we have those) */
-  morScoreAlgorithm = new OriginalPuritanAlgorithm();
-  const json = req.scoreTextUseCase
-    .run({ text, algorithm: morScoreAlgorithm })
-    .toJson();
+function sendResult(req, res) {
+  const json = req.result.toJson();
   res.status(200).send(json);
 }
 
@@ -29,6 +24,6 @@ router
     return res.status(200).send({ text: "TODO: Fix this I think?" });
   })
 
-  .post(requireBody("algorithm", "text"), scoreTextFile);
+  .post(requireBody("algorithm", "text"), scoreTextFile, sendResult);
 
 export default router;

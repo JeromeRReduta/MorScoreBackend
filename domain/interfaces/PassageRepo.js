@@ -13,7 +13,7 @@ export default class PassageRepo extends Interface {
 
   async getByIdAsync(docId) {}
 
-  async createAsync({ title, content, isPublic }) {}
+  async createAsync({ passage, opMorScoreResult }) {}
 
   async deleteByIdAsync(docId) {}
 }

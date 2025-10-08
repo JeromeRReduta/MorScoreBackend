@@ -5,10 +5,17 @@ export default class User {
 
   #morScoreScore;
 
-  constructor({ name, email, morScoreScore }) {
+  #id;
+
+  constructor({ id, name, email, morScoreScore }) {
+    this.#id = id;
     this.#name = name;
     this.#email = email;
     this.#morScoreScore = morScoreScore;
+  }
+
+  get id() {
+    return this.#id;
   }
 
   get name() {

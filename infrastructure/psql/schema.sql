@@ -13,6 +13,7 @@ CREATE TABLE passages (
 CREATE TABLE op_mor_score_results (
     id              SERIAL      PRIMARY KEY,
     score           INT         NOT NULL,
+    category        TEXT        NOT NULL,
     cat_1_count     INT         NOT NULL,
     cat_2_count     INT         NOT NULL,
     cat_3_count     INT         NOT NULL,

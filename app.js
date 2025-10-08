@@ -14,6 +14,8 @@ import PorterBasedStemmer from "./infrastructure/token-preprocessing/stemming/Po
 import NtlkStopwordChecker from "./infrastructure/token-preprocessing/stopword-checking/NtlkStopwordChecker.js";
 import SimplePreprocessor from "./infrastructure/token-preprocessing/SimplePreprocessor.js";
 import SimplePostingsListFactory from "./domain/postings/SimplePostingsList.js";
+import UploadTextUseCase from "./application/UploadTextUseCase.js";
+import PgPassageRepo from "./infrastructure/passages/PgPassageRepo.js";
 
 const app = express();
 app.use(cors());
@@ -28,6 +30,12 @@ app.use((req, res, next) => {
     preprocessor,
     postingsListFactory,
   });
+  next();
+});
+
+app.use((req, res, next) => {
+  const passageRepo = new PgPassageRepo({ pgClient: db });
+  req.uploadTextUseCase = new UploadTextUseCase(passageRepo);
   next();
 });
 
