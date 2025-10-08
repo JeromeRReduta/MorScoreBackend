@@ -1,4 +1,4 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
 
 /** Interface for stemming a word */
 export default class Stemmer extends Interface {

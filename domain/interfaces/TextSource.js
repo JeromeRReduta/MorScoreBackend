@@ -1,4 +1,4 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
 
 /**
  * Interface for data containing text, e.g. Ch. 1 of Moby Dick, an excerpt from Wikipedia

@@ -1,4 +1,5 @@
 export default function requireBody(...fields) {
+  console.log("running requirebody");
   return (req, res, next) => {
     if (!req.body) {
       return res.status(400).send("Missing request body");

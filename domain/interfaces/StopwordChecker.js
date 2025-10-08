@@ -1,4 +1,4 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
 
 /**
  * Interface for checking if a word counts as a stopword (e.g. "a", "the", "but")

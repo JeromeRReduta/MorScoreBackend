@@ -1,15 +1,35 @@
-import Interface from "../interfaces/Interface.js";
+// import Interface from "./Interface";
+// import InvertedIndex from "./InvertedIndex";
+// import MorScoreAlgorithm from "./MorScoreAlgorithm";
+
+import Interface from "./Interface.js";
+import InvertedIndex from "./InvertedIndex.js";
+import MorScoreAlgorithm from "./MorScoreAlgorithm.js";
 
 /** Given an index, scores the index and returns a MorScoreResult */
 export default class MorScoreCalculator extends Interface {
   constructor() {
     super();
   }
+
   /**
-   * Score a given index (implementation should hold it) and returns a MorScoreResult
-   * @returns a MorScoreResult, which has at minimum this format:
-   *
-   * {score: #, category: str, offenses: str[]}
+   * Sets scoring strategy
+   * @param {MorScoreAlgorithm} morScoreAlgorithm scoring strategy
+   */
+  set scoringAlgorithm(morScoreAlgorithm) {}
+  /**
+   * Implementation-specific calculate()
+   * @returns {MorScoreResult} The MorScoreResult
    * */
   calculate() {}
+
+  /**
+   *
+   * @param {MorScoreAlgorithm} morScoreAlgorithm
+   * @param {InvertedIndex} invertedIndex
+   * @returns
+   */
+  static calculate(morScoreAlgorithm, invertedIndex) {
+    return morScoreAlgorithm.run(invertedIndex);
+  }
 }

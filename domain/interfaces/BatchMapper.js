@@ -1,5 +1,4 @@
-import Interface from "../interfaces/Interface.js";
-
+import Interface from "./Interface.js";
 /**
  * Takes a batch of stems and turns it into a mini inverted index
  */

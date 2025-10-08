@@ -1,4 +1,6 @@
-import Interface from "../interfaces/Interface.js";
+import Interface from "./Interface.js";
+import Stemmer from "./Stemmer.js";
+import StopwordChecker from "./StopwordChecker.js";
 
 /**
  * Pre-processes tokens. In this case, takes in an already tokenized and batched string, lowercases all tokens, stems tokens, filters out empty stems and stopwords
@@ -12,7 +14,7 @@ export default class Preprocessor extends Interface {
    * Default method. Processes tokens to be: 1. lowercase, 2. stemmed, 3. not empty, 4. not a stopword
    * @param {String[]} batchedTokens a batch of tokens
    * @param {Stemmer} stemmer a stemmer
-   * @param {StpowordChecker} stopwordChecker something to check for stopwords
+   * @param {StopwordChecker} stopwordChecker something to check for stopwords
    * @returns A processed stem array
    */
   static run(batchedTokens, stemmer, stopwordChecker) {
