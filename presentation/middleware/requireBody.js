@@ -5,6 +5,7 @@ export default function requireBody(...fields) {
     }
     const missing = fields.filter((field) => !(field in req.body));
     if (missing.length > 0) {
+      console.log("wtf we got misssing", missing);
       return res.status(400).send(`Missing fields: ${missing.join(", ")}`);
     }
     next();

@@ -100,7 +100,7 @@ export default class PgUserRepo {
     if (!row) {
       return null;
     }
-    const { email, name, mor_score_score: morScoreScore } = row;
-    return new User({ name, email, morScoreScore });
+    const { id, email, name, mor_score_score: morScoreScore } = row;
+    return new User({ id, name, email, morScoreScore });
   }
 }
