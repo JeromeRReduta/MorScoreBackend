@@ -13,13 +13,14 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.14.1",
     "@2toad/profanity": "^3.2.0",
     "@stdlib/nlp-porter-stemmer": "^0.2.2",
-    "collections": "^5.1.13"
+    "bcrypt": "^5.1.1",
+    "collections": "^5.1.13",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "supertest": "^7.1.0",

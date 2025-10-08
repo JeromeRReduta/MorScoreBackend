@@ -1,11 +1,16 @@
 import express from "express";
+import cors from "cors";
+import getYourMorScoreRouter from "./presentation/getYourMorScore.js";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.route("/").get((req, res) => {
   res.status(200).send("Boop snoop lettuce me doop");
 });
+
+app.use("/get-your-morscore", getYourMorScoreRouter);
 
 /** Just gonna add these 2 error handlers from assignments */
 app.use((err, req, res, next) => {
