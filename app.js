@@ -18,7 +18,7 @@ import UploadTextUseCase from "./application/UploadTextUseCase.js";
 import PgPassageRepo from "./infrastructure/passages/PgPassageRepo.js";
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
